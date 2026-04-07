@@ -3,162 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The 20-Year Wealth Building Challenge</title>
+    <title>The 10-Year Investment Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Wheel Styles */
-        .wheel-container {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 0 auto;
-        }
-        .wheel-pointer {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 18px solid transparent;
-            border-right: 18px solid transparent;
-            border-top: 30px solid #1e293b;
-            z-index: 10;
-            filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.2));
-        }
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 6px solid #e2e8f0;
-            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), inset 0 0 15px rgb(0 0 0 / 0.1);
-            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-        .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background: #ffffff;
-            border: 4px solid #e2e8f0;
-            border-radius: 50%;
-            box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
-            z-index: 5;
-        }
-
-        /* Custom Scrollbar for tables */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .wheel-container { position: relative; width: 280px; height: 280px; margin: 0 auto; }
+        .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 30px solid #1e293b; z-index: 10; filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.2)); }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), inset 0 0 15px rgb(0 0 0 / 0.1); transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1); }
+        .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: #ffffff; border: 4px solid #e2e8f0; border-radius: 50%; box-shadow: 0 2px 4px rgb(0 0 0 / 0.1); z-index: 5; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex items-center justify-center p-4">
 
     <div id="app" class="w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden min-h-[600px] flex flex-col relative">
-        <!-- Header -->
         <header class="bg-slate-900 text-white p-6 text-center z-10">
-            <h1 class="text-2xl md:text-3xl font-bold tracking-tight">The 20-Year Wealth Building Challenge</h1>
-            <p class="text-slate-400 mt-2 text-sm md:text-base">An Interactive Lesson on Interest & Risk</p>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight">The 10-Year Investment Challenge</h1>
+            <p class="text-slate-400 mt-2 text-sm md:text-base">A 10-Year Interactive Lesson on Interest & Risk</p>
         </header>
-
-        <!-- Dynamic Content Area -->
-        <main id="content" class="p-6 md:p-10 flex-grow flex flex-col justify-center items-center fade-in bg-slate-50 relative overflow-hidden w-full">
-            <!-- Content gets injected here -->
-        </main>
+        <main id="content" class="p-6 md:p-10 flex-grow flex flex-col justify-center items-center fade-in bg-slate-50 relative overflow-hidden w-full"></main>
     </div>
 
     <script>
         // --- STATE MANAGEMENT ---
         const state = {
-            view: 'intro', // intro, stage1, stage1_wrong, stage1_correct, stage2, stage2_wrong, stage2_calc, stage2_correct, stage3_lesson, stage3, stage3_safe_calc, stage3_wheel, final_result, final_reflection
-            initialBalance: 100000,
-            currentBalance: 100000,
-            
-            stage1Choice: null,
-            stage1Logs: [],
-            
-            stage2Choice: null,
-            stage2Working: "",
-            stage2Logs: [],
-            
-            stage3Choice: null,
-            stage3Logs: [],
-            finalBalance: 0,
-            
+            view: 'intro',
+            initialBalance: 300000,
+            currentBalance: 300000,
+            stage1Choice: null, stage1Logs: [],
+            stage2Choice: null, stage2Working: "", stage2Logs: [],
+            stage3Choice: null, stage3Logs: [], finalBalance: 0,
+            stage3PendingChoice: null,
             verifications: { stage1: false, stage2: false, stage3_lesson: false, stage3: false, rec_stage2_sel: false, rec_stage3_sel: false },
             calcInputs: { stage2: "", stage3safe: "", wheel: "" },
-            
-            showStage2Hint: false,
-            stage3AnalyzerError: false,
-            stage2CalcError: false,
-            stage3SafeCalcError: false,
-            pendingStage2Logs: [],
-            pendingStage2Bal: 0,
-            pendingStage3Logs: [],
-            pendingStage3Bal: 0,
-            
-            // Wheel specific state
+            showStage2Hint: false, showStage2Hints: false,
+            stage3AnalyzerError: false, stage3AnalyzerErrorMsg: '', stage2CalcError: false, stage2CalcErrorMsg: '', stage3SafeCalcError: false,
+            analyzerCorrectS: null, analyzerCorrectD: null,
+            analyzerSStatus: null, analyzerDStatus: null,
+            analyzerSInput: '', analyzerDInput: '',
+            analyzerSErrorMsg: '', analyzerDErrorMsg: '',
+            stage2AnnualStatus: null, stage2MonthlyStatus: null,
+            stage2AnnualErrorMsg: '', stage2MonthlyErrorMsg: '',
+            stage2BothCorrect: false, stage2AnnualInput: '', stage2MonthlyInput: '',
+            pendingStage2Logs: [], pendingStage2Bal: 0,
+            pendingStage3Logs: [], pendingStage3Bal: 0,
             wheelData: {
-                fundId: null,
-                fundName: "",
-                year: 16, // Stage 3 is Years 16 to 20
-                currentPrincipal: 0, 
-                accumulatedInterest: 0,
-                bal: 0,
-                isSpinning: false,
-                currentRotation: 0,
-                riskPct: 10,
-                slicePattern: [], 
-                awaitingCalculation: false,
-                pendingOutcome: null,
-                calcError: false
-            }
+                fundId: null, fundName: "", year: 2033,
+                currentPrincipal: 0, accumulatedInterest: 0, bal: 0,
+                isSpinning: false, currentRotation: 0, riskPct: 10,
+                slicePattern: [], awaitingCalculation: false,
+                pendingOutcome: null, calcError: false
+            },
+            previousRuns: []
         };
 
         // --- UTILS ---
-        const formatMoney = (amount) => {
-            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        const formatMoney = (amount) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        const FORMULA_LATEX = 'A = P\\left(1 + \\dfrac{r}{100}\\right)^{n}';
+        const tex = (latex, display = false) => {
+            if (typeof katex === 'undefined') return `<span class="font-mono font-bold">${latex.replace(/\\/g,'')}</span>`;
+            return katex.renderToString(latex, { throwOnError: false, displayMode: display });
+        };
+
+        const backBtn = (view) => `
+            <button onclick="changeView('${view}')" class="text-slate-500 hover:text-slate-700 font-semibold text-sm inline-flex items-center mb-4 transition-colors group">
+                <svg class="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Back
+            </button>
+        `;
+
+        const getFundName = (id) => {
+            if (id === 'A') return 'Secure Haven (2.5% Guaranteed)';
+            if (id === 'B') return 'Market Accel (5.0%, 20% Risk)';
+            if (id === 'C') return 'Fun Tech (45.0%, 60% Risk)';
+            return '';
         };
 
         const getWheelGradient = (slicePattern) => {
             if (!slicePattern || slicePattern.length === 0) return '';
-            const degPerSlice = 36; // 360 deg / 10 slices
+            const degPerSlice = 36;
+            const gap = 2; // white divider width in degrees
             let grad = `conic-gradient(from -18deg`;
             let currentDeg = 0;
-
             slicePattern.forEach((type) => {
                 const color = type === 'red' ? '#ef4444' : (type === 'green1' ? '#22c55e' : '#16a34a');
-                grad += `, ${color} ${currentDeg}deg ${currentDeg + degPerSlice}deg`;
+                grad += `, ${color} ${currentDeg}deg ${currentDeg + degPerSlice - gap}deg`;
+                grad += `, white ${currentDeg + degPerSlice - gap}deg ${currentDeg + degPerSlice}deg`;
                 currentDeg += degPerSlice;
             });
-            
             grad += ')';
             return grad;
         };
@@ -166,49 +106,21 @@
         const toggleVerification = (stage) => {
             const checkbox = document.getElementById(`verify-${stage}`);
             state.verifications[stage] = checkbox.checked;
-            
-            if (stage === 'stage3' || stage === 'stage3_lesson') {
-                const btn = document.getElementById(`btn-${stage}`);
-                if(btn) {
-                    if (state.verifications[stage]) {
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                        btn.classList.add('hover:scale-105');
-                    } else {
-                        btn.disabled = true;
-                        btn.classList.add('opacity-50', 'cursor-not-allowed');
-                        btn.classList.remove('hover:scale-105');
-                    }
-                }
-                return;
-            }
-
             const btn = document.getElementById(`btn-${stage}`);
-            if (state.verifications[stage]) {
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                btn.classList.add('hover:scale-105');
-            } else {
-                btn.disabled = true;
-                btn.classList.add('opacity-50', 'cursor-not-allowed');
-                btn.classList.remove('hover:scale-105');
+            if(btn) {
+                if (state.verifications[stage]) { btn.disabled = false; btn.classList.remove('opacity-50', 'cursor-not-allowed'); btn.classList.add('hover:scale-105'); }
+                else { btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed'); btn.classList.remove('hover:scale-105'); }
             }
         };
 
         const toggleSelectionBtns = (stageKey, checkboxId, btnClassIds) => {
             const checkbox = document.getElementById(checkboxId);
             state.verifications[stageKey] = checkbox.checked;
-            
             btnClassIds.forEach(btnId => {
                 const btn = document.getElementById(btnId);
                 if(btn) {
-                    if (checkbox.checked) {
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    } else {
-                        btn.disabled = true;
-                        btn.classList.add('opacity-50', 'cursor-not-allowed');
-                    }
+                    if (checkbox.checked) { btn.disabled = false; btn.classList.remove('opacity-50', 'cursor-not-allowed'); }
+                    else { btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed'); }
                 }
             });
         };
@@ -217,26 +129,22 @@
             const content = document.getElementById('content');
             content.className = 'p-6 md:p-10 flex-grow flex flex-col justify-center fade-in bg-slate-50 w-full';
             content.style.animation = 'none';
-            content.offsetHeight; /* trigger reflow */
-            content.style.animation = null; 
-
+            content.offsetHeight;
+            content.style.animation = null;
             switch(state.view) {
                 case 'intro': content.innerHTML = introView(); break;
-                
                 case 'stage1': content.innerHTML = stage1View(); break;
                 case 'stage1_wrong': content.innerHTML = stage1WrongView(); break;
                 case 'stage1_correct': content.innerHTML = stage1CorrectView(); break;
-                
                 case 'stage2': content.innerHTML = stage2View(); break;
                 case 'stage2_wrong': content.innerHTML = stage2WrongView(); break;
                 case 'stage2_calc': content.innerHTML = stage2CalcView(); break;
                 case 'stage2_correct': content.innerHTML = stage2CorrectView(); break;
-                
                 case 'stage3_lesson': content.innerHTML = stage3LessonView(); break;
                 case 'stage3': content.innerHTML = stage3View(); break;
                 case 'stage3_safe_calc': content.innerHTML = stage3SafeCalcView(); break;
                 case 'stage3_wheel': content.innerHTML = stage3WheelView(); break;
-                case 'final_result': content.innerHTML = finalResultView(); break;
+                case 'final_result': content.innerHTML = finalResultView(); setTimeout(drawComparisonChart, 100); break;
                 case 'final_reflection': content.innerHTML = finalReflectionView(); break;
             }
         };
@@ -257,11 +165,11 @@
             <div class="max-w-2xl mx-auto w-full text-center bg-white p-10 rounded-2xl shadow-sm border border-slate-100">
                 <h2 class="text-3xl font-bold mb-4">Your Base Capital: <span class="text-green-600">${formatMoney(state.initialBalance)}</span></h2>
                 <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-                    Your goal is to learn how to grow your wealth over a <strong>20-Year Journey</strong>. 
+                    Your goal is to learn how to grow your wealth over a <strong>10-Year Journey (2026 – 2035)</strong>.
                     <br><br>Your total balance will <strong>carry over</strong> from stage to stage. You will face 3 different scenarios testing your knowledge on interest types, compounding frequencies, and risk management. Let's see how much you can end up with!
                 </p>
                 <button onclick="changeView('stage1')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 text-lg">
-                    Begin Stage 1 (Years 1-5)
+                    Begin Stage 1 (2026 – 2030)
                 </button>
             </div>
         `;
@@ -271,15 +179,15 @@
         // ==========================================
         const stage1View = () => `
             <div class="max-w-5xl mx-auto w-full text-center">
+                ${backBtn('intro')}
                 <div class="mb-10">
                     <span class="bg-slate-200 text-slate-800 px-3 py-1 rounded-full text-sm font-bold tracking-wide uppercase mb-3 inline-block">The Observation Test</span>
-                    <h2 class="text-3xl font-bold mb-2">Stage 1: The First 5 Years</h2>
+                    <h2 class="text-3xl font-bold mb-2">Stage 1: 2026 – 2030 (5 Years)</h2>
                     <p class="text-slate-600 max-w-2xl mx-auto">
-                        Your goal is to lock your money in for 5 years to get the highest return on your <strong class="text-green-600">${formatMoney(state.currentBalance)}</strong>. 
+                        Your goal is to lock your money in for 5 years to get the highest return on your <strong class="text-green-600">${formatMoney(state.currentBalance)}</strong>.
                         <strong>Without using a calculator</strong>, simply observe the options below. Which fund will obviously yield the most money?
                     </p>
                 </div>
-                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="border-2 border-slate-200 rounded-xl p-6 hover:border-blue-500 transition-all shadow-sm hover:shadow-md bg-white flex flex-col items-center text-center cursor-pointer group" onclick="processStage1('A')">
                         <div class="bg-blue-100 group-hover:bg-blue-200 transition-colors p-4 rounded-full mb-4 text-blue-600"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg></div>
@@ -288,7 +196,6 @@
                         <div class="text-sm font-semibold text-blue-600 mb-4 uppercase tracking-wide">Simple Interest</div>
                         <button class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg mt-auto hover:bg-blue-700 transition">Select</button>
                     </div>
-
                     <div class="border-2 border-slate-200 rounded-xl p-6 hover:border-emerald-500 transition-all shadow-sm hover:shadow-md bg-white flex flex-col items-center text-center cursor-pointer group" onclick="processStage1('B')">
                         <div class="bg-emerald-100 group-hover:bg-emerald-200 transition-colors p-4 rounded-full mb-4 text-emerald-600"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg></div>
                         <h3 class="text-xl font-bold mb-1">Fund B: Zenith</h3>
@@ -296,7 +203,6 @@
                         <div class="text-sm font-semibold text-emerald-600 mb-4 uppercase tracking-wide">Simple Interest</div>
                         <button class="w-full bg-emerald-600 text-white font-semibold py-2 rounded-lg mt-auto hover:bg-emerald-700 transition">Select</button>
                     </div>
-
                     <div class="border-2 border-slate-200 rounded-xl p-6 hover:border-purple-500 transition-all shadow-sm hover:shadow-md bg-white flex flex-col items-center text-center cursor-pointer group" onclick="processStage1('C')">
                         <div class="bg-purple-100 group-hover:bg-purple-200 transition-colors p-4 rounded-full mb-4 text-purple-600"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path></svg></div>
                         <h3 class="text-xl font-bold mb-1">Fund C: Apex</h3>
@@ -317,8 +223,8 @@
                 <p class="text-slate-600 mb-8 leading-relaxed text-left bg-slate-50 p-6 rounded-xl border border-slate-200">
                     You are looking for the highest return. First, notice that <strong>5.0% p.a.</strong> is clearly better than 2.0% p.a., which rules out Fund A.<br><br>
                     Now, between Fund B and Fund C, the rate is exactly the same. However, look closely at the interest type:<br>
-                    • <strong>Simple Interest</strong> only calculates interest based on your original principal.<br>
-                    • <strong>Compound Interest</strong> calculates interest on your original principal <em>plus</em> any interest you have already earned in previous years.<br><br>
+                    &bull; <strong>Simple Interest</strong> only calculates interest based on your original principal.<br>
+                    &bull; <strong>Compound Interest</strong> calculates interest on your original principal <em>plus</em> any interest you have already earned in previous years.<br><br>
                     Which mechanic will snowball into more wealth over time?
                 </p>
                 <button onclick="changeView('stage1')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-xl w-full max-w-sm mx-auto transition">
@@ -333,14 +239,10 @@
                     <td class="px-4 py-3 text-sm font-bold text-slate-700 text-center">${log.year}</td>
                     <td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap">${formatMoney(log.startBalance)}</td>
                     <td class="px-4 py-3 w-1/2">
-                        <code class="text-xs font-mono text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 block whitespace-nowrap overflow-x-auto">
-                            ${log.working}
-                        </code>
+                        <code class="text-xs font-mono text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 block whitespace-nowrap overflow-x-auto">${log.working}</code>
                     </td>
                     <td class="px-4 py-3 w-1/2">
-                        <code class="text-xs font-mono text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100 block whitespace-nowrap overflow-x-auto">
-                            ${log.formulaWorking}
-                        </code>
+                        <code class="text-xs font-mono text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100 block whitespace-nowrap overflow-x-auto">${log.formulaWorking}</code>
                     </td>
                     <td class="px-4 py-3 text-sm font-bold text-slate-900 text-right whitespace-nowrap">${formatMoney(log.endBalance)}</td>
                 </tr>
@@ -348,6 +250,7 @@
 
             return `
                 <div class="max-w-5xl mx-auto w-full">
+                    ${backBtn('stage1')}
                     <div class="text-center mb-8">
                         <div class="bg-green-100 text-green-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -357,11 +260,10 @@
                             Fund C is the winner! At the same 5% rate, <strong>Compound Interest</strong> outperforms Simple Interest because your generated interest begins to generate its own interest in subsequent years.
                         </p>
                     </div>
-                    
                     <div class="mb-8 overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200 w-full custom-scrollbar">
                         <div class="bg-purple-50 px-6 py-4 border-b border-purple-100 flex justify-between items-center">
-                            <h3 class="font-extrabold text-purple-900 text-lg">Years 1-5 Growth (Fund C)</h3>
-                            <span class="text-xs font-bold text-purple-700 uppercase tracking-wider">Formula: A = P(1 + r)ⁿ</span>
+                            <h3 class="font-extrabold text-purple-900 text-lg">2026 – 2030 Growth (Fund C)</h3>
+                            <span class="text-xs font-bold text-purple-700 uppercase tracking-wider">Formula: ${tex(FORMULA_LATEX)}</span>
                         </div>
                         <table class="w-full text-left border-collapse min-w-[800px]">
                             <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
@@ -369,25 +271,21 @@
                                     <th class="px-4 py-3 text-xs font-bold uppercase text-center w-16">Year</th>
                                     <th class="px-4 py-3 text-xs font-bold uppercase whitespace-nowrap">Start Balance</th>
                                     <th class="px-4 py-3 text-xs font-bold uppercase">Step-by-Step Working</th>
-                                    <th class="px-4 py-3 text-xs font-bold uppercase text-purple-700">Direct Formula Equivalent</th>
+                                    <th class="px-4 py-3 text-xs font-bold uppercase text-purple-700">Direct Formula (n = years)</th>
                                     <th class="px-4 py-3 text-xs font-bold uppercase text-right whitespace-nowrap">End Balance</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                ${logHTML}
-                            </tbody>
+                            <tbody>${logHTML}</tbody>
                         </table>
                     </div>
 
-                    <!-- SLS Task 1 -->
                     <div class="bg-white border-2 border-indigo-100 p-8 rounded-2xl mb-8 text-left shadow-sm relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
                         <h4 class="font-extrabold text-indigo-800 flex items-center mb-2 text-xl">
-                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> 
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             SLS Task: Record Your Reasoning
                         </h4>
                         <p class="text-slate-600 mb-4">Why did Fund C (Compound Interest) earn more than Fund B (Simple Interest) even though the rates were the same? Explain in your own words <strong>in the SLS platform</strong>.</p>
-                        
                         <label class="flex items-center space-x-3 cursor-pointer p-4 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition">
                             <input type="checkbox" id="verify-stage1" onchange="toggleVerification('stage1')" ${state.verifications.stage1 ? 'checked' : ''} class="w-6 h-6 text-indigo-600 bg-white border-slate-300 rounded focus:ring-indigo-500">
                             <span class="text-slate-700 font-semibold">I verify that I have submitted my explanation in the SLS tab.</span>
@@ -396,11 +294,11 @@
 
                     <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white p-8 rounded-2xl flex flex-col md:flex-row justify-between items-center shadow-lg">
                         <div>
-                            <p class="text-purple-200 text-sm font-semibold uppercase tracking-wider">Balance After Stage 1</p>
+                            <p class="text-purple-200 text-sm font-semibold uppercase tracking-wider">Balance After Stage 1 (End of 2030)</p>
                             <h3 class="text-4xl font-bold mt-2 text-white">${formatMoney(state.currentBalance)}</h3>
                         </div>
                         <button id="btn-stage1" ${state.verifications.stage1 ? '' : 'disabled'} onclick="changeView('stage2')" class="mt-6 md:mt-0 bg-white text-indigo-900 font-bold py-4 px-8 rounded-xl transition-transform transform shadow-md ${state.verifications.stage1 ? 'hover:scale-105' : 'opacity-50 cursor-not-allowed'}">
-                            Unlock Stage 2
+                            Unlock Stage 2 (2031 – 2032)
                         </button>
                     </div>
                 </div>
@@ -410,69 +308,134 @@
         // ==========================================
         // STAGE 2: FREQUENCY
         // ==========================================
-        const stage2View = () => `
+        const stage2View = () => {
+            const p = state.currentBalance;
+            const aS = state.stage2AnnualStatus;
+            const mS = state.stage2MonthlyStatus;
+            const annualBorder = aS === 'correct' ? 'border-green-400' : aS === 'incorrect' ? 'border-red-400' : 'border-slate-200';
+            const monthlyBorder = mS === 'correct' ? 'border-green-400' : mS === 'incorrect' ? 'border-red-400' : 'border-slate-200';
+            const annualInputBorder = aS === 'correct' ? 'border-green-500 bg-green-50' : aS === 'incorrect' ? 'border-red-500 bg-red-50' : 'border-slate-300';
+            const monthlyInputBorder = mS === 'correct' ? 'border-green-500 bg-green-50' : mS === 'incorrect' ? 'border-red-500 bg-red-50' : 'border-slate-300';
+            return `
             <div class="max-w-5xl mx-auto w-full">
-                <div class="text-center mb-10">
+                ${backBtn('stage1_correct')}
+                <div class="text-center mb-8">
                     <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-bold tracking-wide uppercase mb-3 inline-block">The Frequency Test</span>
-                    <h2 class="text-3xl font-bold mb-2">Stage 2: Years 6 to 15</h2>
+                    <h2 class="text-3xl font-bold mb-2">Stage 2: 2031 – 2032 (2 Years)</h2>
                     <p class="text-slate-600 text-lg max-w-2xl mx-auto">
-                        You are investing your <strong class="text-green-600 bg-green-50 px-2 py-1 rounded">${formatMoney(state.currentBalance)}</strong> for the next 10 years. 
-                        Which compounding frequency will earn you more money?
+                        You are investing your <strong class="text-green-600 bg-green-50 px-2 py-1 rounded">${formatMoney(p)}</strong> for the next 2 years.
+                        Calculate the final balance for <strong>each</strong> fund, then compare which earns more.
                     </p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <!-- Option 1 -->
-                    <div class="border-2 border-slate-200 rounded-2xl p-8 hover:border-indigo-500 transition-all hover:shadow-lg bg-white flex flex-col items-center text-center">
+                <div class="flex justify-center mb-8">
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl px-8 py-4 shadow-sm">
+                        ${tex(FORMULA_LATEX, true)}
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-4">
+                    <!-- Annual Card -->
+                    <div class="border-2 ${annualBorder} rounded-2xl p-8 bg-white flex flex-col items-center text-center transition-all hover:shadow-lg">
                         ${icons.bank}
                         <h3 class="text-2xl font-bold mb-2">The Annual Saver</h3>
                         <p class="text-slate-500 mb-6">Calculated once per year.</p>
-                        <ul class="text-left w-full mb-8 space-y-4 flex-grow bg-slate-50 p-6 rounded-xl border border-slate-100">
-                            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Interest Rate:</span> <strong>3.0% p.a. (per annum)</strong></li>
-                            <li class="flex justify-between"><span>Compounding:</span> <strong>Annually (1x/yr)</strong></li>
+                        <ul class="text-left w-full mb-6 space-y-4 flex-grow bg-slate-50 p-6 rounded-xl border border-slate-100">
+                            <li class="flex justify-between border-b border-slate-200 pb-3"><span class="text-slate-600">Interest Rate:</span> <strong>3.0% p.a. (per annum)</strong></li>
+                            <li class="flex justify-between pt-1"><span class="text-slate-600">Compounding:</span> <strong>Annually (1x/yr)</strong></li>
                         </ul>
-                        <button id="btn-s2-opt1" onclick="processStage2('Annual')" ${state.verifications.rec_stage2_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-indigo-600 text-white font-bold py-4 rounded-xl transition-colors text-lg shadow-md ${state.verifications.rec_stage2_sel ? '' : 'opacity-50 cursor-not-allowed'}">Choose Annual</button>
+                        ${state.showStage2Hints ? `
+                            <div class="w-full mb-4 bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-sm text-left">
+                                <p class="font-bold text-indigo-800 mb-2">Formula values:</p>
+                                <p class="font-mono text-indigo-700">P = ${formatMoney(p)}</p>
+                                <p class="font-mono text-indigo-700">r = 3</p>
+                                <p class="font-mono text-indigo-700">n = 2</p>
+                            </div>
+                        ` : ''}
+                        <label class="block text-sm font-bold text-slate-700 mb-2 text-left w-full">Balance after 2 years (A):</label>
+                        <div class="flex items-center gap-2 w-full">
+                            <span class="text-xl font-bold text-slate-400">$</span>
+                            <input type="number" id="s2-annual-input" value="${state.stage2AnnualInput || ''}"
+                                oninput="state.stage2AnnualInput = this.value;"
+                                ${state.stage2BothCorrect ? 'readonly' : ''}
+                                class="w-full border-2 ${annualInputBorder} rounded-xl p-3 text-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors" placeholder="0.00">
+                        </div>
+                        ${aS === 'correct' ? `
+                            <div class="mt-3 text-left w-full p-3 bg-green-100 border border-green-300 rounded-lg text-green-800 text-sm font-semibold">
+                                Correct! Annual compounding applies interest only 2 times over 2 years — once per year.
+                            </div>
+                        ` : aS === 'incorrect' ? `
+                            <div class="mt-3 text-left w-full p-3 bg-red-100 border border-red-300 rounded-lg text-red-700 text-sm font-semibold">
+                                ${state.stage2AnnualErrorMsg || 'Incorrect. Check your formula values and rounding.'}
+                            </div>
+                        ` : ''}
                     </div>
-
-                    <!-- Option 2 -->
-                    <div class="border-2 border-slate-200 rounded-2xl p-8 hover:border-teal-500 transition-all hover:shadow-lg bg-white flex flex-col items-center text-center">
+                    <!-- Monthly Card -->
+                    <div class="border-2 ${monthlyBorder} rounded-2xl p-8 bg-white flex flex-col items-center text-center transition-all hover:shadow-lg">
                         ${icons.chart}
                         <h3 class="text-2xl font-bold mb-2">The Monthly Saver</h3>
                         <p class="text-slate-500 mb-6">Calculated 12 times a year.</p>
-                        <ul class="text-left w-full mb-8 space-y-4 flex-grow bg-slate-50 p-6 rounded-xl border border-slate-100">
-                            <li class="flex justify-between border-b border-slate-200 pb-2"><span>Interest Rate:</span> <strong>2.96% p.a. (per annum)</strong></li>
-                            <li class="flex justify-between"><span>Compounding:</span> <strong>Monthly (12x/yr)</strong></li>
+                        <ul class="text-left w-full mb-6 space-y-4 flex-grow bg-slate-50 p-6 rounded-xl border border-slate-100">
+                            <li class="flex justify-between border-b border-slate-200 pb-3"><span class="text-slate-600">Interest Rate:</span> <strong>2.96% p.a. (per annum)</strong></li>
+                            <li class="flex justify-between pt-1"><span class="text-slate-600">Compounding:</span> <strong>Monthly (12x/yr)</strong></li>
                         </ul>
-                        <button id="btn-s2-opt2" onclick="processStage2('Monthly')" ${state.verifications.rec_stage2_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-teal-600 text-white font-bold py-4 rounded-xl transition-colors text-lg shadow-md ${state.verifications.rec_stage2_sel ? '' : 'opacity-50 cursor-not-allowed'}">Choose Monthly</button>
+                        ${state.showStage2Hints ? `
+                            <div class="w-full mb-4 bg-teal-50 p-4 rounded-xl border border-teal-100 text-sm text-left">
+                                <p class="font-bold text-teal-800 mb-2">Formula values:</p>
+                                <p class="font-mono text-teal-700">P = ${formatMoney(p)}</p>
+                                <p class="font-mono text-teal-700">r = 2.96 ÷ 12</p>
+                                <p class="font-mono text-teal-700">n = 24</p>
+                            </div>
+                        ` : ''}
+                        <label class="block text-sm font-bold text-slate-700 mb-2 text-left w-full">Balance after 2 years (A):</label>
+                        <div class="flex items-center gap-2 w-full">
+                            <span class="text-xl font-bold text-slate-400">$</span>
+                            <input type="number" id="s2-monthly-input" value="${state.stage2MonthlyInput || ''}"
+                                oninput="state.stage2MonthlyInput = this.value;"
+                                ${state.stage2BothCorrect ? 'readonly' : ''}
+                                class="w-full border-2 ${monthlyInputBorder} rounded-xl p-3 text-lg focus:ring-teal-500 focus:border-teal-500 transition-colors" placeholder="0.00">
+                        </div>
+                        ${mS === 'correct' ? `
+                            <div class="mt-3 text-left w-full p-3 bg-green-100 border border-green-300 rounded-lg text-green-800 text-sm font-semibold">
+                                Correct! Monthly compounding applies interest 24 times over 2 years — a snowball effect that overtakes the higher annual rate!
+                            </div>
+                        ` : mS === 'incorrect' ? `
+                            <div class="mt-3 text-left w-full p-3 bg-red-100 border border-red-300 rounded-lg text-red-700 text-sm font-semibold">
+                                ${state.stage2MonthlyErrorMsg || 'Incorrect. Check your formula values and rounding.'}
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
-
-                <div class="mt-10 bg-white border-2 border-indigo-100 p-5 rounded-2xl text-left max-w-4xl mx-auto shadow-sm">
-                    <label class="flex items-center space-x-4 cursor-pointer">
-                        <input type="checkbox" id="verify-rec-stage2-sel" onchange="toggleSelectionBtns('rec_stage2_sel', 'verify-rec-stage2-sel', ['btn-s2-opt1', 'btn-s2-opt2'])" ${state.verifications.rec_stage2_sel ? 'checked' : ''} class="w-6 h-6 text-indigo-600 bg-white border-slate-300 rounded focus:ring-indigo-500">
-                        <span class="text-slate-700 font-semibold text-lg">Before proceeding to compute, I verify that I have recorded down my Principal, the Rates, and Compounding Frequencies somewhere to do my working.</span>
-                    </label>
-                </div>
+                ${!state.stage2BothCorrect ? `
+                    <div class="flex flex-col items-center gap-4 mb-8">
+                        <button onclick="checkStage2Both()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-transform transform hover:scale-105 text-xl">
+                            Check Both Calculations
+                        </button>
+                        <button onclick="state.showStage2Hints = !state.showStage2Hints; render();" class="text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            ${state.showStage2Hints ? 'Hide hints' : 'Need a hint? Show formula values'}
+                        </button>
+                    </div>
+                ` : `
+                    <div class="mb-6 bg-teal-50 border-2 border-teal-200 p-6 rounded-2xl text-center max-w-4xl mx-auto">
+                        <h3 class="text-xl font-bold text-teal-800 mb-2">Monthly Saver wins!</h3>
+                        <p class="text-teal-700">Even with a lower rate (2.96% vs 3.0%), compounding 24 times over 2 years creates a snowball effect that annual compounding cannot match.</p>
+                    </div>
+                    <div class="bg-white border-2 border-indigo-100 p-5 rounded-2xl text-left max-w-4xl mx-auto shadow-sm mb-6">
+                        <label class="flex items-center space-x-4 cursor-pointer">
+                            <input type="checkbox" id="verify-rec-stage2-sel" onchange="state.verifications.rec_stage2_sel = this.checked; render();" ${state.verifications.rec_stage2_sel ? 'checked' : ''} class="w-6 h-6 text-indigo-600 bg-white border-slate-300 rounded focus:ring-indigo-500">
+                            <span class="text-slate-700 font-semibold text-lg">I have recorded my workings and final balances for both funds in my SLS notes.</span>
+                        </label>
+                    </div>
+                    <div class="flex justify-center">
+                        <button onclick="proceedToStage2Correct()" ${state.verifications.rec_stage2_sel ? '' : 'disabled'} class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-transform transform text-xl ${state.verifications.rec_stage2_sel ? 'hover:scale-105' : 'opacity-50 cursor-not-allowed'}">
+                            Proceed to Breakdown
+                        </button>
+                    </div>
+                `}
             </div>
-        `;
+            `;
+        };
 
-        const stage2WrongView = () => `
-            <div class="max-w-2xl mx-auto text-center bg-white p-10 rounded-2xl shadow-sm border border-red-100">
-                <div class="bg-red-100 text-red-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </div>
-                <h2 class="text-2xl font-bold mb-4 text-slate-800">A sneaky math trap!</h2>
-                <p class="text-slate-600 mb-8 leading-relaxed text-left bg-slate-50 p-6 rounded-xl border border-slate-200">
-                    It is entirely natural to pick 3.0% over 2.96%, but you missed the hidden power of <strong>compounding frequency</strong>.<br><br>
-                    The Annual Saver calculates your interest only <em>once</em> at the very end of the year. The Monthly Saver calculates a small piece of your interest <strong>every single month</strong>. Because it is compounding, by Month 2, you are already earning interest on Month 1's interest!<br><br>
-                    Over two years, this monthly "snowball effect" happens 24 times, easily making up for the tiny difference in the base per annum rate.
-                </p>
-                <button onclick="changeView('stage2')" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-xl w-full max-w-sm mx-auto transition">
-                    Try Again
-                </button>
-            </div>
-        `;
-
+        const stage2WrongView = () => `<div></div>`;
         const stage2CalcView = () => `
             <div class="max-w-3xl mx-auto w-full text-center">
                 <div class="bg-indigo-100 text-indigo-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -480,15 +443,13 @@
                 </div>
                 <h2 class="text-3xl font-bold mb-2">Calculate Your Returns</h2>
                 <p class="text-slate-600 mb-8 leading-relaxed">
-                    You chose <strong>The Monthly Saver</strong>. Use the compound interest formula to calculate your final balance at the end of Year 15. 
+                    You chose <strong>The Monthly Saver</strong>. Use the compound interest formula to calculate your final balance at the end of 2032.
                     <br><em class="text-sm">(Refer back to the previous screen using the <strong>Go Back</strong> button if you forgot the fund details!)</em>
                 </p>
-
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-left mb-6">
-                    <div class="text-center bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-slate-700 mb-6 font-bold text-xl">
-                        A = P(1 + r/n)<sup>nt</sup>
+                    <div class="flex justify-center bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6">
+                        ${tex(FORMULA_LATEX, true)}
                     </div>
-                    
                     ${!state.showStage2Hint ? `
                         <div class="text-center mb-6">
                             <button onclick="toggleStage2Hint()" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors inline-flex items-center">
@@ -500,28 +461,20 @@
                         <ul class="text-slate-600 space-y-3 mb-8 font-mono bg-indigo-50 p-6 rounded-xl border border-indigo-100 text-sm">
                             <li class="text-indigo-800 font-bold mb-1 font-sans">Formula Values:</li>
                             <li><strong>P (Principal):</strong> ${formatMoney(state.currentBalance)}</li>
-                            <li><strong>r (Annual Rate):</strong> 2.96% = 0.0296</li>
-                            <li><strong>n (Compounds/Yr):</strong> 12 (Monthly)</li>
-                            <li><strong>t (Years):</strong> 10 (Years 6 to 15)</li>
-                            <li><strong>nt (Total Periods):</strong> 120 months</li>
+                            <li><strong>r (Rate per compounding period, in %):</strong> 2.96 &divide; 12</li>
+                            <li><strong>n (Total compounding periods):</strong> 2 years &times; 12 = 24 months</li>
                         </ul>
                     `}
-
                     <label class="block text-sm font-bold text-slate-700 mb-2">Enter your final balance (A), rounded to exactly 2 decimal places:</label>
                     <div class="flex items-center gap-3">
                         <span class="text-2xl font-bold text-slate-400">$</span>
                         <input type="number" id="stage2-calc-input" value="${state.calcInputs?.stage2 || ''}" oninput="if(!state.calcInputs) state.calcInputs={}; state.calcInputs.stage2 = this.value" class="w-full border-2 border-slate-300 rounded-xl p-4 text-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors" placeholder="0.00">
                     </div>
-                    ${state.stage2CalcError ? '<p class="text-red-500 text-sm mt-3 font-semibold">Incorrect calculation. Check your math and rounding, then try again!</p>' : ''}
+                    ${state.stage2CalcError ? `<p class="text-red-500 text-sm mt-3 font-semibold">${state.stage2CalcErrorMsg || 'Incorrect calculation. Check your math and rounding, then try again!'}</p>` : ''}
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                    <button onclick="changeView('stage2')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-4 px-8 rounded-full shadow-sm transition-colors text-xl w-full md:w-auto">
-                        Go Back
-                    </button>
-                    <button onclick="checkStage2Calc()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-transform transform hover:scale-105 text-xl w-full max-w-md">
-                        Verify & Show Breakdown
-                    </button>
+                    <button onclick="changeView('stage2')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-4 px-8 rounded-full shadow-sm transition-colors text-xl w-full md:w-auto">Go Back</button>
+                    <button onclick="checkStage2Calc()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-transform transform hover:scale-105 text-xl w-full max-w-md">Verify & Show Breakdown</button>
                 </div>
             </div>
         `;
@@ -532,14 +485,10 @@
                     <td class="px-4 py-2 text-sm font-bold text-slate-700 text-center whitespace-nowrap">${log.period}</td>
                     <td class="px-4 py-2 text-sm text-slate-600 whitespace-nowrap">${formatMoney(log.startBalance)}</td>
                     <td class="px-4 py-2 w-1/2">
-                        <code class="text-xs font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded border border-slate-200 block whitespace-nowrap overflow-x-auto">
-                            ${log.working}
-                        </code>
+                        <code class="text-xs font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded border border-slate-200 block whitespace-nowrap overflow-x-auto">${log.working}</code>
                     </td>
                     <td class="px-4 py-2 w-1/2">
-                        <code class="text-xs font-mono text-teal-700 bg-teal-50 px-2 py-1 rounded border border-teal-100 block whitespace-nowrap overflow-x-auto">
-                            ${log.formulaWorking}
-                        </code>
+                        <code class="text-xs font-mono text-teal-700 bg-teal-50 px-2 py-1 rounded border border-teal-100 block whitespace-nowrap overflow-x-auto">${log.formulaWorking}</code>
                     </td>
                     <td class="px-4 py-2 text-sm font-bold text-slate-900 text-right whitespace-nowrap">${formatMoney(log.endBalance)}</td>
                 </tr>
@@ -547,18 +496,18 @@
 
             return `
                 <div class="max-w-5xl mx-auto w-full text-center">
+                    ${backBtn('stage2')}
                     <div class="bg-green-100 text-green-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                     <h2 class="text-3xl font-bold mb-2">Calculation Verified!</h2>
-                    <p class="text-slate-600 max-w-2xl mx-auto mb-8">You successfully calculated the final balance! Even with a slightly lower rate (2.96% vs 3.0%), compounding more frequently gives your money an edge. Here is the full step-by-step breakdown of how that looks:</p>
+                    <p class="text-slate-600 max-w-2xl mx-auto mb-8">You successfully calculated the final balance! Even with a slightly lower rate (2.96% vs 3.0%), compounding more frequently gives your money an edge. Here is the full step-by-step breakdown:</p>
 
                     <div class="mb-8 bg-white rounded-2xl shadow-sm border border-slate-200 w-full text-left overflow-hidden">
                         <div class="bg-teal-50 px-6 py-4 border-b border-teal-100 flex flex-col md:flex-row justify-between items-center gap-2">
-                            <h3 class="font-extrabold text-teal-900 text-lg">Years 6 to 15 Breakdown</h3>
-                            <span class="text-xs font-bold text-teal-700 bg-white border border-teal-200 px-4 py-1.5 rounded-full">Formula: A = P(1 + r/n)ⁿᵗ</span>
+                            <h3 class="font-extrabold text-teal-900 text-lg">2031 – 2032 Breakdown</h3>
+                            <span class="text-xs font-bold text-teal-700 bg-white border border-teal-200 px-4 py-1.5 rounded-full">Formula: ${tex(FORMULA_LATEX)}</span>
                         </div>
-                        <!-- Scrollable table container -->
                         <div class="max-h-[350px] overflow-y-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[850px]">
                                 <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 sticky top-0 z-10 shadow-sm">
@@ -566,26 +515,22 @@
                                         <th class="px-4 py-3 text-xs font-bold uppercase text-center w-24">Period</th>
                                         <th class="px-4 py-3 text-xs font-bold uppercase whitespace-nowrap">Start Balance</th>
                                         <th class="px-4 py-3 text-xs font-bold uppercase">Step-by-Step Working</th>
-                                        <th class="px-4 py-3 text-xs font-bold uppercase text-teal-700">Direct Formula Equivalent</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase text-teal-700">Direct Formula (n = months)</th>
                                         <th class="px-4 py-3 text-xs font-bold uppercase text-right whitespace-nowrap">End Balance</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    ${stage2LogHTML}
-                                </tbody>
+                                <tbody>${stage2LogHTML}</tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- SLS Task 2 -->
                     <div class="bg-white border-2 border-teal-100 p-8 rounded-2xl mb-8 text-left shadow-sm relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-2 h-full bg-teal-500"></div>
                         <h4 class="font-extrabold text-teal-800 flex items-center mb-2 text-xl">
-                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> 
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             SLS Task: Record Your Reasoning
                         </h4>
                         <p class="text-slate-600 mb-4">Why did the Monthly Saver (2.96%) beat the Annual Saver (3.0%)? Explain how compounding frequency affects the final amount <strong>in the SLS platform</strong>.</p>
-                        
                         <label class="flex items-center space-x-3 cursor-pointer p-4 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition">
                             <input type="checkbox" id="verify-stage2" onchange="toggleVerification('stage2')" ${state.verifications.stage2 ? 'checked' : ''} class="w-6 h-6 text-teal-600 bg-white border-slate-300 rounded focus:ring-teal-500">
                             <span class="text-slate-700 font-semibold">I verify that I have submitted my explanation in the SLS tab.</span>
@@ -594,11 +539,11 @@
 
                     <div class="bg-gradient-to-r from-teal-900 to-indigo-900 text-white p-8 rounded-2xl flex flex-col md:flex-row justify-between items-center shadow-lg">
                         <div>
-                            <p class="text-teal-200 text-sm font-semibold uppercase tracking-wider">Balance After Stage 2</p>
+                            <p class="text-teal-200 text-sm font-semibold uppercase tracking-wider">Balance After Stage 2 (End of 2032)</p>
                             <h3 class="text-4xl font-bold mt-2 text-white">${formatMoney(state.currentBalance)}</h3>
                         </div>
                         <button id="btn-stage2" ${state.verifications.stage2 ? '' : 'disabled'} onclick="changeView('stage3_lesson')" class="mt-6 md:mt-0 bg-white text-indigo-900 hover:bg-indigo-50 font-bold py-4 px-8 rounded-xl transition-transform transform text-xl shadow-md ${state.verifications.stage2 ? 'hover:scale-105' : 'opacity-50 cursor-not-allowed'}">
-                            Unlock Final Stage (Years 8-10)
+                            Unlock Final Stage (2033 – 2035)
                         </button>
                     </div>
                 </div>
@@ -611,34 +556,32 @@
         const stage3LessonView = () => {
             return `
             <div class="max-w-4xl mx-auto w-full">
+                ${backBtn('stage2_correct')}
                 <div class="text-center mb-10">
                     <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold tracking-wide uppercase mb-3 inline-block">Crucial Concept</span>
                     <h2 class="text-3xl font-bold mb-2">Stage 3: The Reality of Risk</h2>
                     <p class="text-slate-600 text-lg max-w-2xl mx-auto">
-                        Before we begin the final 5 years, you need to understand what "Risk" actually means for your money.
+                        Before we begin the final 3 years, you need to understand what "Risk" actually means for your money.
                     </p>
                 </div>
 
                 <div class="bg-blue-50 border border-blue-200 p-8 rounded-2xl mb-8 text-left shadow-sm">
                     <h3 class="font-extrabold text-blue-900 text-2xl mb-3 flex items-center">
                         <svg class="w-7 h-7 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Why the Formula Fails
+                        Beyond the Formula
                     </h3>
-                    <p class="text-slate-700 text-lg leading-relaxed mb-4">In Stages 1 and 2, the bank guaranteed your interest rate. You could easily use the compound interest formula to jump straight to the final answer:</p>
-                    
-                    <div class="text-center bg-white p-4 rounded-xl border border-blue-200 font-mono text-blue-700 mb-6 font-bold text-2xl shadow-sm">
-                        A = P(1 + r)ⁿ
+                    <p class="text-slate-700 text-lg leading-relaxed mb-4">In Stages 1 and 2, the bank guaranteed your interest rate. You could use the compound interest formula to jump straight to the final answer:</p>
+                    <div class="flex justify-center bg-white p-4 rounded-xl border border-blue-200 mb-6 shadow-sm">
+                        ${tex(FORMULA_LATEX, true)}
                     </div>
-                    
                     <p class="text-slate-700 text-lg leading-relaxed mb-4">
-                        This formula <strong>only works if 'r' (the rate) is exactly the same every single year</strong>.
+                        This formula works perfectly <strong>when 'r' (the rate) stays the same every period</strong>.
                     </p>
                     <p class="text-slate-700 text-lg leading-relaxed">
-                        When risk is involved, your rate changes! One year it might be +45.0%, and the next year the market might crash, triggering a <strong class="text-red-600">massive penalty loss</strong> instead. Because the rate isn't constant, the formula breaks down completely. You <em>must</em> calculate your balance step-by-step for each year!
+                        In real life, investment returns are rarely guaranteed. Markets fluctuate, and the actual return each year depends on many factors like economic conditions and market performance. One year it might be +45.0%, and the next year the market might crash, triggering a <strong class="text-red-600">penalty loss</strong> instead. Because the rate changes, you <em>must</em> calculate your balance step-by-step for each year to understand what is really happening to your money.
                     </p>
                 </div>
 
-                <!-- Pre-Investment Analysis Task -->
                 <div class="bg-orange-50 border-2 border-orange-200 p-8 rounded-2xl mb-8 text-left shadow-sm">
                     <h3 class="font-extrabold text-orange-900 text-2xl mb-4 flex items-center">
                         <svg class="w-7 h-7 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
@@ -647,34 +590,51 @@
                     <p class="text-slate-700 text-lg leading-relaxed mb-6">
                         Let's test this with a practice example: the <strong>Beta Tech</strong> fund. It offers a tempting <strong class="text-green-600">+20.0% gain</strong>, but a <strong class="text-red-600">20% penalty drop</strong> if the market crashes. Let's see how much money that actually represents.
                     </p>
-                    
                     <div class="bg-white p-6 rounded-xl border border-orange-200 mb-6">
                         <div class="flex justify-between items-center mb-4 border-b border-orange-100 pb-4">
                             <p class="text-slate-600 font-semibold">Your Current Balance: <span class="text-xl text-slate-800">${formatMoney(state.currentBalance)}</span></p>
                             <p class="text-slate-500 font-semibold text-sm bg-orange-50 px-3 py-1 rounded border border-orange-100 italic">Please round your answers to exactly 2 decimal places.</p>
                         </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-bold text-green-700 mb-2">Scenario A: Calculate balance after 1 SUCCESS (+20%)</label>
-                                <div class="flex items-center">
-                                    <span class="text-slate-500 font-bold mr-2">$</span>
-                                    <input type="number" id="analyze-success" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="0.00">
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                            <!-- Scenario A -->
+                            <div class="flex flex-col">
+                                <label class="block text-sm font-bold text-green-700 mb-2" style="min-height:2.75rem;display:flex;align-items:flex-end;">Scenario A: Calculate balance after 1 SUCCESS (+20%)</label>
+                                ${state.analyzerSStatus === 'correct' ? `
+                                    <div class="flex items-center bg-green-50 border border-green-400 rounded-lg p-2">
+                                        <span class="text-slate-500 font-bold mr-2">$</span>
+                                        <span class="font-bold text-green-800">${state.analyzerCorrectS ? state.analyzerCorrectS.toFixed(2) : ''}</span>
+                                    </div>
+                                ` : `
+                                    <div class="flex items-center">
+                                        <span class="text-slate-500 font-bold mr-2">$</span>
+                                        <input type="number" id="analyze-success" value="${state.analyzerSInput || ''}"
+                                            oninput="state.analyzerSInput = this.value"
+                                            class="w-full border ${state.analyzerSStatus === 'incorrect' ? 'border-red-400 bg-red-50' : 'border-slate-300'} rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="0.00">
+                                    </div>
+                                    ${state.analyzerSStatus === 'incorrect' ? `<p class="text-red-500 text-xs mt-1 font-semibold">${state.analyzerSErrorMsg}</p>` : ''}
+                                `}
                             </div>
-                            <div>
-                                <label class="block text-sm font-bold text-red-700 mb-2">Scenario B: Calculate balance after 1 PENALTY (-20%)</label>
-                                <div class="flex items-center">
-                                    <span class="text-slate-500 font-bold mr-2">$</span>
-                                    <input type="number" id="analyze-drop" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="0.00">
-                                </div>
+                            <!-- Scenario B -->
+                            <div class="flex flex-col">
+                                <label class="block text-sm font-bold text-red-700 mb-2" style="min-height:2.75rem;display:flex;align-items:flex-end;">Scenario B: Calculate balance after 1 PENALTY (-20%)</label>
+                                ${state.analyzerDStatus === 'correct' ? `
+                                    <div class="flex items-center bg-green-50 border border-green-400 rounded-lg p-2">
+                                        <span class="text-slate-500 font-bold mr-2">$</span>
+                                        <span class="font-bold text-green-800">${state.analyzerCorrectD ? state.analyzerCorrectD.toFixed(2) : ''}</span>
+                                    </div>
+                                ` : `
+                                    <div class="flex items-center">
+                                        <span class="text-slate-500 font-bold mr-2">$</span>
+                                        <input type="number" id="analyze-drop" value="${state.analyzerDInput || ''}"
+                                            oninput="state.analyzerDInput = this.value"
+                                            class="w-full border ${state.analyzerDStatus === 'incorrect' ? 'border-red-400 bg-red-50' : 'border-slate-300'} rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="0.00">
+                                    </div>
+                                    ${state.analyzerDStatus === 'incorrect' ? `<p class="text-red-500 text-xs mt-1 font-semibold">${state.analyzerDErrorMsg}</p>` : ''}
+                                `}
                             </div>
                         </div>
-                        
-                        ${state.stage3AnalyzerError ? '<p class="text-red-500 text-sm mt-4 font-semibold text-center">Incorrect calculation. Please check your math, ensure it is rounded to 2 decimal places, and try again!</p>' : ''}
-                        
                         ${state.verifications.stage3_lesson ? `
-                            <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800 font-semibold text-center animate-pulse">
+                            <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800 font-semibold text-center">
                                 Great job! Notice how one 20% drop destroys far more money than one 20% success creates. This is the danger of high-risk traps!
                             </div>
                         ` : `
@@ -695,52 +655,55 @@
         // ==========================================
         const stage3View = () => `
             <div class="max-w-5xl mx-auto w-full">
+                ${backBtn('stage3_lesson')}
                 <div class="text-center mb-10">
                     <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold tracking-wide uppercase mb-3 inline-block">The Risk Test</span>
-                    <h2 class="text-3xl font-bold mb-2">Stage 3: The Final 5 Years</h2>
+                    <h2 class="text-3xl font-bold mb-2">Stage 3: 2033 – 2035 (3 Years)</h2>
                     <p class="text-slate-600 text-lg max-w-3xl mx-auto">
                         You have <strong class="text-green-600 bg-green-50 px-2 py-1 rounded">${formatMoney(state.currentBalance)}</strong>. Choose your final fund!<br>
                         Funds B and C have higher potential, but carry risk. If the market drops, you lose out on interest AND take a <strong class="text-red-600 bg-red-50 px-2 py-0.5 rounded">penalty loss that year</strong> on your money.
                     </p>
                 </div>
-                
+
+                <div class="bg-amber-50 border-2 border-amber-300 p-4 rounded-xl mb-8 max-w-4xl mx-auto text-center">
+                    <p class="text-amber-800 font-bold text-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+                        Once you select a fund, your choice is locked in for the remaining 3 years. You cannot go back!
+                    </p>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Fund A -->
                     <div class="border-2 border-slate-200 rounded-xl p-6 hover:border-blue-500 transition-all hover:shadow-md bg-white flex flex-col items-center text-center">
                         ${icons.shield}
                         <h3 class="text-xl font-bold mb-1">Secure Haven</h3>
                         <p class="text-sm font-semibold text-blue-600 mb-4 bg-blue-50 px-3 py-1 rounded-full">0% Risk (Guaranteed)</p>
                         <ul class="text-sm text-slate-600 text-left w-full mb-6 space-y-2 flex-grow">
-                            <li>• <strong>2.5% p.a.</strong> Annual Rate</li>
-                            <li>• <strong>Compound Interest</strong></li>
+                            <li>&bull; <strong>2.5% p.a.</strong> Annual Rate</li>
+                            <li>&bull; <strong>Compound Interest</strong></li>
                         </ul>
-                        <button id="btn-s3-opt1" onclick="processStage3('A')" ${state.verifications.rec_stage3_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition-colors shadow-md ${state.verifications.rec_stage3_sel ? '' : 'opacity-50 cursor-not-allowed'}">Select Safe</button>
+                        <button id="btn-s3-opt1" onclick="confirmStage3Choice('A')" ${state.verifications.rec_stage3_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition-colors shadow-md ${state.verifications.rec_stage3_sel ? '' : 'opacity-50 cursor-not-allowed'}">Select Safe</button>
                     </div>
-
-                    <!-- Fund B -->
                     <div class="border-2 border-slate-200 rounded-xl p-6 hover:border-green-500 transition-all hover:shadow-md bg-white flex flex-col items-center text-center">
                         ${icons.sprout}
                         <h3 class="text-xl font-bold mb-1">Market Accel.</h3>
                         <p class="text-sm font-semibold text-orange-600 mb-4 bg-orange-50 px-3 py-1 rounded-full">20% Risk (80% Success)</p>
                         <ul class="text-sm text-slate-600 text-left w-full mb-6 space-y-2 flex-grow">
-                            <li>• <strong>5.0% p.a.</strong> Annual Rate</li>
-                            <li>• <strong>Compound Interest</strong></li>
-                            <li class="text-red-600 font-semibold">• 2% penalty that year if market drops</li>
+                            <li>&bull; <strong>5.0% p.a.</strong> Annual Rate</li>
+                            <li>&bull; <strong>Compound Interest</strong></li>
+                            <li class="text-red-600 font-semibold">&bull; 2% penalty that year if market drops</li>
                         </ul>
-                        <button id="btn-s3-opt2" onclick="processStage3('B')" ${state.verifications.rec_stage3_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-colors shadow-md ${state.verifications.rec_stage3_sel ? '' : 'opacity-50 cursor-not-allowed'}">Select Market Accel</button>
+                        <button id="btn-s3-opt2" onclick="confirmStage3Choice('B')" ${state.verifications.rec_stage3_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-colors shadow-md ${state.verifications.rec_stage3_sel ? '' : 'opacity-50 cursor-not-allowed'}">Select Market Accel</button>
                     </div>
-
-                    <!-- Fund C -->
                     <div class="border-2 border-slate-200 rounded-xl p-6 hover:border-orange-500 transition-all hover:shadow-md bg-white flex flex-col items-center text-center">
                         ${icons.rocket}
-                        <h3 class="text-xl font-bold mb-1">Quantum Tech</h3>
-                        <p class="text-sm font-semibold text-red-600 mb-4 bg-red-50 px-3 py-1 rounded-full">30% Risk (70% Success)</p>
+                        <h3 class="text-xl font-bold mb-1">Fun Tech</h3>
+                        <p class="text-sm font-semibold text-red-600 mb-4 bg-red-50 px-3 py-1 rounded-full">60% Risk (40% Success)</p>
                         <ul class="text-sm text-slate-600 text-left w-full mb-6 space-y-2 flex-grow">
-                            <li>• <strong class="text-green-600">45.0% p.a.</strong> Annual Rate</li>
-                            <li>• <strong>Compound Interest</strong></li>
-                            <li class="text-red-600 font-semibold">• 25% penalty that year if market drops</li>
+                            <li>&bull; <strong class="text-green-600">45.0% p.a.</strong> Annual Rate</li>
+                            <li>&bull; <strong>Compound Interest</strong></li>
+                            <li class="text-red-600 font-semibold">&bull; 40% penalty that year if market drops</li>
                         </ul>
-                        <button id="btn-s3-opt3" onclick="processStage3('C')" ${state.verifications.rec_stage3_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition-colors shadow-md ${state.verifications.rec_stage3_sel ? '' : 'opacity-50 cursor-not-allowed'}">Select Quantum Tech</button>
+                        <button id="btn-s3-opt3" onclick="confirmStage3Choice('C')" ${state.verifications.rec_stage3_sel ? '' : 'disabled'} class="w-full bg-slate-900 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition-colors shadow-md ${state.verifications.rec_stage3_sel ? '' : 'opacity-50 cursor-not-allowed'}">Select Fun Tech</button>
                     </div>
                 </div>
 
@@ -751,6 +714,26 @@
                     </label>
                 </div>
             </div>
+            ${state.stage3PendingChoice ? `
+            <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" style="margin:0;">
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 shadow-2xl">
+                    <div class="text-center">
+                        <div class="bg-amber-100 text-amber-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Lock In Your Choice?</h3>
+                        <p class="text-slate-600 mb-6">
+                            You are about to select <strong>${getFundName(state.stage3PendingChoice)}</strong>.
+                            <br><br><span class="text-red-600 font-semibold">This choice is final for the remaining 3 years. You will not be able to change your fund or go back.</span>
+                        </p>
+                        <div class="flex gap-3">
+                            <button onclick="cancelStage3Confirm()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 rounded-xl transition-colors">Cancel</button>
+                            <button onclick="lockStage3()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors">Confirm & Lock In</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ` : ''}
         `;
 
         const stage3SafeCalcView = () => `
@@ -758,21 +741,22 @@
                 <div class="bg-blue-100 text-blue-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 </div>
+                <div class="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 mb-4 inline-block">
+                    <p class="text-amber-700 text-sm font-semibold">Your fund choice is locked in.</p>
+                </div>
                 <h2 class="text-3xl font-bold mb-2">Calculate Your Guaranteed Returns</h2>
                 <p class="text-slate-600 mb-8 leading-relaxed">
-                    You chose <strong>Secure Haven</strong>. Because the rate is guaranteed and has zero risk, you can safely use the compound interest formula to jump straight to the end of Year 20!
+                    You chose <strong>Secure Haven</strong>. Because the rate is guaranteed and has zero risk, you can safely use the compound interest formula to jump straight to the end of 2035!
                 </p>
-
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-left mb-6">
-                    <div class="text-center bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-slate-700 mb-8 font-bold text-xl">
-                        A = P(1 + r)<sup>n</sup>
+                    <div class="flex justify-center bg-slate-50 p-4 rounded-xl border border-slate-200 mb-8">
+                        ${tex(FORMULA_LATEX, true)}
                     </div>
-                    <ul class="text-slate-600 space-y-3 mb-8 font-mono bg-blue-50 p-6 rounded-xl border border-blue-100 text-sm hidden">
+                    <ul class="text-slate-600 space-y-3 mb-8 font-mono bg-blue-50 p-6 rounded-xl border border-blue-100 text-sm">
                         <li><strong>P (Principal):</strong> ${formatMoney(state.currentBalance)}</li>
-                        <li><strong>r (Annual Rate):</strong> 2.5% = 0.025</li>
-                        <li><strong>n (Years):</strong> 5 (Years 16 to 20)</li>
+                        <li><strong>r (Annual Rate, in %):</strong> 2.5</li>
+                        <li><strong>n (Years):</strong> 3 (2033 to 2035)</li>
                     </ul>
-
                     <label class="block text-sm font-bold text-slate-700 mb-2">Enter your final balance (A), rounded to exactly 2 decimal places:</label>
                     <div class="flex items-center gap-3">
                         <span class="text-2xl font-bold text-slate-400">$</span>
@@ -780,7 +764,6 @@
                     </div>
                     ${state.stage3SafeCalcError ? '<p class="text-red-500 text-sm mt-3 font-semibold">Incorrect calculation. Check your math and rounding, then try again!</p>' : ''}
                 </div>
-
                 <button onclick="checkStage3SafeCalc()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-transform transform hover:scale-105 text-xl w-full max-w-md">
                     Verify & Finish Challenge
                 </button>
@@ -789,11 +772,11 @@
 
         const stage3WheelView = () => {
             const year = state.wheelData.year;
-            const isFinished = year > 20;
+            const isFinished = year > 2035;
 
             const logRows = state.stage3Logs.map(log => `
                 <tr class="${log.success ? 'bg-green-50' : 'bg-red-50'} border-b">
-                    <td class="px-3 py-3 text-sm font-semibold align-top whitespace-nowrap">Yr ${log.year}</td>
+                    <td class="px-3 py-3 text-sm font-semibold align-top whitespace-nowrap">${log.year}</td>
                     <td class="px-3 py-3 text-sm align-top">
                         <div class="font-bold ${log.success ? 'text-green-600' : 'text-red-600'} text-xs mb-1">${log.success ? 'SUCCESS' : 'MARKET DROP'}</div>
                         <code class="text-[11px] text-slate-700 bg-white/60 px-1.5 py-0.5 rounded border border-slate-200/50 block">${log.working}</code>
@@ -804,13 +787,15 @@
 
             return `
                 <div class="max-w-5xl mx-auto w-full bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 mb-4 text-center">
+                        <p class="text-amber-700 text-sm font-semibold">Your fund choice is locked in.</p>
+                    </div>
                     <div class="text-center mb-8">
                         <h2 class="text-2xl font-bold text-slate-800">${state.wheelData.fundName}</h2>
-                        <p class="text-slate-500 mt-1">Spin the market wheel for ${isFinished ? 'results' : 'Year ' + year}</p>
+                        <p class="text-slate-500 mt-1">Spin the market wheel for ${isFinished ? 'results' : year}</p>
                     </div>
 
                     <div class="flex flex-col md:flex-row gap-10 items-center justify-center">
-                        <!-- Wheel Section -->
                         <div class="flex-shrink-0">
                             <div class="wheel-container">
                                 <div class="wheel-pointer"></div>
@@ -819,7 +804,6 @@
                             </div>
                         </div>
 
-                        <!-- Info & Logs Section -->
                         <div class="flex-1 w-full max-w-lg flex flex-col items-center md:items-start">
                             <div class="bg-slate-50 w-full p-5 rounded-xl border border-slate-200 mb-6">
                                 <p class="text-sm text-slate-500 mb-1">Current Balance</p>
@@ -828,7 +812,7 @@
 
                             ${!isFinished ? `
                                 ${state.wheelData.awaitingCalculation ? `
-                                    <div class="bg-indigo-50 border-2 border-indigo-200 rounded-xl p-5 mb-6 w-full animate-fade-in shadow-sm">
+                                    <div class="bg-indigo-50 border-2 border-indigo-200 rounded-xl p-5 mb-6 w-full shadow-sm">
                                         <h4 class="text-lg font-bold mb-2">
                                             ${state.wheelData.pendingOutcome ? '<span class="text-green-600 flex items-center"><svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> SUCCESS! Market went UP!</span>' : '<span class="text-red-600 flex items-center"><svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> MARKET DROP! Market went DOWN!</span>'}
                                         </h4>
@@ -845,19 +829,18 @@
                                         <button onclick="checkWheelCalc()" class="w-full mt-3 bg-indigo-600 text-white font-bold py-2.5 rounded-lg hover:bg-indigo-700 transition">Submit Answer</button>
                                     </div>
                                 ` : `
-                                    <button onclick="spinWheel()" ${state.wheelData.isSpinning ? 'disabled' : ''} 
+                                    <button onclick="spinWheel()" ${state.wheelData.isSpinning ? 'disabled' : ''}
                                         class="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all text-xl mb-6">
-                                        ${state.wheelData.isSpinning ? 'Spinning...' : `${icons.spin} Spin for Year ${year}`}
+                                        ${state.wheelData.isSpinning ? 'Spinning...' : `${icons.spin} Spin for ${year}`}
                                     </button>
                                 `}
                             ` : `
-                                <button onclick="finishWheelStage()" 
+                                <button onclick="finishWheelStage()"
                                     class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all text-lg mb-6 animate-pulse">
                                     View Final Challenge Results
                                 </button>
                             `}
 
-                            <!-- Mini Logs Table -->
                             <div class="w-full border rounded-lg overflow-hidden max-h-[220px] overflow-y-auto custom-scrollbar">
                                 <table class="w-full text-left bg-white">
                                     <thead class="bg-slate-100 border-b sticky top-0 z-10">
@@ -880,15 +863,13 @@
 
         const finalResultView = () => {
             const profit = state.finalBalance - state.initialBalance;
-            
+
             const stage3LogHTML = state.stage3Logs.map(log => `
                 <tr class="border-b hover:bg-slate-50 transition-colors ${log.success ? '' : 'bg-red-50/30'}">
-                    <td class="px-4 py-3 text-sm font-bold text-slate-700 text-center whitespace-nowrap">Year ${log.year}</td>
+                    <td class="px-4 py-3 text-sm font-bold text-slate-700 text-center whitespace-nowrap">${log.year}</td>
                     <td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap">${formatMoney(log.startBalance)}</td>
                     <td class="px-4 py-3 w-full">
-                        <code class="text-sm font-mono ${log.success ? 'text-green-700' : 'text-red-700'} bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 block whitespace-nowrap overflow-x-auto">
-                            ${log.working}
-                        </code>
+                        <code class="text-sm font-mono ${log.success ? 'text-green-700' : 'text-red-700'} bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 block whitespace-nowrap overflow-x-auto">${log.working}</code>
                     </td>
                     <td class="px-4 py-3 text-sm font-bold text-slate-900 text-right whitespace-nowrap">${formatMoney(log.endBalance)}</td>
                 </tr>
@@ -896,27 +877,25 @@
 
             const millionaireBadge = state.finalBalance >= 1000000 ? `
                 <div class="animate-bounce bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 text-yellow-900 font-black text-lg md:text-xl px-8 py-3 rounded-full shadow-lg inline-block border-2 border-yellow-200 mb-6 transform rotate-2">
-                    🏆 SECRET BADGE UNLOCKED: THE MILLIONAIRE CLUB! 🏆
+                    SECRET BADGE UNLOCKED: THE MILLIONAIRE CLUB!
                 </div>
             ` : '';
 
             return `
                 <div class="max-w-4xl mx-auto w-full text-center">
                     ${millionaireBadge}
-                    <h2 class="text-4xl font-extrabold mb-2 text-slate-800">Two Decades of Wealth Complete!</h2>
-                    <p class="text-slate-500 mb-8 text-lg">Here is your 20-year wealth building summary.</p>
+                    <h2 class="text-4xl font-extrabold mb-2 text-slate-800">Your 10-Year Journey Complete!</h2>
+                    <p class="text-slate-500 mb-8 text-lg">Here is your wealth building summary (2026 – 2035).</p>
 
                     <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white p-10 rounded-3xl shadow-2xl mb-8 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10"></div>
                         <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full -ml-8 -mb-8"></div>
-                        
                         <p class="text-slate-300 uppercase tracking-widest text-sm font-bold mb-2">Final Balance</p>
                         <h1 class="text-5xl md:text-7xl font-black text-green-400 mb-6 drop-shadow-md">${formatMoney(state.finalBalance)}</h1>
-                        
                         <div class="flex justify-between items-center border-t border-slate-600 pt-6 mt-2">
                             <div class="text-left">
                                 <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Total Profit</p>
-                                <p class="text-2xl font-bold text-white">+${formatMoney(profit)}</p>
+                                <p class="text-2xl font-bold text-white">${profit >= 0 ? '+' : ''}${formatMoney(profit)}</p>
                             </div>
                             <div class="text-right">
                                 <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Initial Seed</p>
@@ -925,312 +904,336 @@
                         </div>
                     </div>
 
-                    <!-- Final Stage Table -->
                     <div class="mb-8 overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200 w-full text-left">
                         <div class="bg-slate-100 px-6 py-4 border-b border-slate-200 flex flex-col md:flex-row justify-between items-center gap-2">
-                            <h3 class="font-extrabold text-slate-800 text-lg">Stage 3 (Years 16-20)</h3>
+                            <h3 class="font-extrabold text-slate-800 text-lg">Stage 3 (2033 – 2035)</h3>
                             <span class="text-sm font-bold text-slate-700 bg-white border border-slate-300 px-4 py-1.5 rounded-full">${state.stage3Choice}</span>
                         </div>
                         <table class="w-full text-left border-collapse min-w-[700px]">
                             <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
                                 <tr>
-                                    <th class="px-4 py-3 text-xs font-bold uppercase text-center w-24">Period</th>
+                                    <th class="px-4 py-3 text-xs font-bold uppercase text-center w-24">Year</th>
                                     <th class="px-4 py-3 text-xs font-bold uppercase whitespace-nowrap">Start Balance</th>
                                     <th class="px-4 py-3 text-xs font-bold uppercase">Calculation (Working)</th>
                                     <th class="px-4 py-3 text-xs font-bold uppercase text-right whitespace-nowrap">End Balance</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                ${stage3LogHTML}
-                            </tbody>
+                            <tbody>${stage3LogHTML}</tbody>
                         </table>
                     </div>
 
+                    <!-- Comparison Chart -->
+                    <div class="mb-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-left">
+                        <h3 class="font-extrabold text-slate-800 text-lg mb-2 text-center">Your Journey vs Worst Possible Decisions</h3>
+                        <p class="text-xs text-slate-500 text-center mb-4">
+                            <span class="font-semibold text-red-500">Worst Decisions</span> assumes:
+                            Stage 1 → Fund A (2% simple interest) &bull;
+                            Stage 2 → Annual compounding (3.0%) &bull;
+                            Stage 3 → Safe fund (2.5% p.a.)
+                        </p>
+                        <div style="width:100%; max-width:100%;">
+                            <canvas id="comparison-chart" style="width:100%; height:350px;"></canvas>
+                        </div>
+                    </div>
+
+                    ${state.previousRuns.length < 2 ? `
                     <div class="text-right mb-8">
                         <button onclick="replayStage3()" class="bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold py-3 px-6 rounded-xl transition-colors border border-orange-200 shadow-sm inline-flex items-center hover:scale-105 transform transition-transform">
                             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Time Travel: Replay Stage 3 to Compare Funds
+                            Time Travel: Replay Stage 3 to Compare Funds ${state.previousRuns.length > 0 ? `(${2 - state.previousRuns.length} replay left)` : '(2 replays available)'}
                         </button>
-                    </div>
+                    </div>` : `
+                    <div class="text-right mb-8">
+                        <p class="text-sm text-slate-400 italic">Maximum replays reached — see all 3 runs on the chart below.</p>
+                    </div>`}
 
                     <div class="text-left bg-white border border-slate-200 p-8 rounded-2xl mb-8 shadow-sm">
                         <div class="border-b border-slate-100 pb-4 mb-6">
                             <h4 class="font-extrabold text-indigo-800 flex items-center mb-4 text-xl">
-                                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> 
+                                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                 Final SLS Task
                             </h4>
-                            
                             <div class="text-slate-700 text-lg space-y-3 mb-6 bg-indigo-50 p-6 rounded-xl border border-indigo-100">
                                 <p><strong>1. Share Your Score:</strong> Record your final amount of <strong class="text-green-700">${formatMoney(state.finalBalance)}</strong> and share it on the SLS platform.</p>
-                                <p><strong>2. Your Strategy:</strong> Based on your 20-year journey, do you prefer guaranteed returns or risky funds? <em>(Hint: Use the Time Travel button above to try the other funds and compare the outcomes before deciding!)</em> Explain why.</p>
-                                <p><strong>3. The Math:</strong> Explain why the compound interest formula <code>A = P(1 + r)ⁿ</code> does not work for the risky funds in Stage 3, and why calculating step-by-step is required.</p>
+                                <p><strong>2. Your Strategy:</strong> Based on your 10-year journey, do you prefer guaranteed returns or risky funds? <em>(Hint: Use the Time Travel button above to try the other funds and compare the outcomes before deciding!)</em> Explain why.</p>
+                                <p><strong>3. The Math:</strong> Explain why the compound interest formula ${tex(FORMULA_LATEX)} cannot be used directly for the risky funds in Stage 3, and why calculating step-by-step is required when rates change.</p>
                             </div>
-                            
                             <label class="flex items-center space-x-3 cursor-pointer p-4 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition">
                                 <input type="checkbox" id="verify-stage3" onchange="toggleVerification('stage3')" ${state.verifications.stage3 ? 'checked' : ''} class="w-6 h-6 text-indigo-600 bg-white border-slate-300 rounded focus:ring-indigo-500">
                                 <span class="text-slate-700 font-semibold text-lg">I verify that I have completed all 3 tasks in my SLS tab.</span>
                             </label>
                         </div>
-                        
                         <div class="text-center mt-6">
                             <button id="btn-stage3" ${state.verifications.stage3 ? '' : 'disabled'} onclick="changeView('final_reflection')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-transform transform text-xl ${state.verifications.stage3 ? 'hover:scale-105' : 'opacity-50 cursor-not-allowed'}">
                                 View Final Lesson Reflections
                             </button>
                         </div>
                     </div>
-
                 </div>
             `;
         };
 
         const finalReflectionView = () => `
             <div class="max-w-4xl mx-auto w-full text-center">
+                ${backBtn('final_result')}
                 <div class="bg-white border border-slate-200 p-10 rounded-3xl mb-8 shadow-xl">
                     <div class="bg-indigo-100 text-indigo-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253"></path></svg>
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C17.832 18.477 16.246 18 14.5 18s-3.332.477-4.5 1.253"></path></svg>
                     </div>
                     <h2 class="text-4xl font-extrabold text-slate-800 mb-8">Final Lesson Reflections</h2>
-                    
                     <div class="space-y-6 text-left">
                         <div class="p-6 bg-purple-50 rounded-2xl border border-purple-100 flex items-start">
                             <div class="bg-purple-200 text-purple-800 font-black rounded-lg px-3 py-1 mr-4 mt-1">1</div>
                             <p class="text-slate-700 text-lg leading-relaxed">Compound interest always outpaces simple interest over time because your earned interest starts generating its own interest, <strong class="text-purple-900">assuming the interest rate is the same</strong>.</p>
                         </div>
-                        
                         <div class="p-6 bg-teal-50 rounded-2xl border border-teal-100 flex items-start">
                             <div class="bg-teal-200 text-teal-800 font-black rounded-lg px-3 py-1 mr-4 mt-1">2</div>
                             <p class="text-slate-700 text-lg leading-relaxed">The more frequently your money compounds (monthly vs annually), the faster it grows. However, <strong class="text-teal-900">actual calculation needs to be done in order to compare well, if it is unclear</strong>.</p>
                         </div>
-                        
                         <div class="p-6 bg-red-50 rounded-2xl border border-red-100 flex items-start">
                             <div class="bg-red-200 text-red-800 font-black rounded-lg px-3 py-1 mr-4 mt-1">3</div>
-                            <p class="text-slate-700 text-lg leading-relaxed">Risk brings the potential for higher rewards but guarantees nothing. A tempting rate (like 45%) is a mathematical trap if the penalty drops are too severe. In these cases, <strong class="text-red-900">the formula is not reliable when there are changes between the years</strong> (like variable returns or penalties)—you must calculate step-by-step.</p>
+                            <p class="text-slate-700 text-lg leading-relaxed">Risk brings the potential for higher rewards but guarantees nothing. A tempting rate (like 45%) is a mathematical trap if the penalty drops are too severe. In real life, returns are rarely constant — economic conditions, market performance, and many other factors affect the rate each year. When the rate changes between periods, <strong class="text-red-900">the formula ${tex(FORMULA_LATEX)} cannot be applied directly</strong> — you must calculate step-by-step to understand what is truly happening to your money.</p>
                         </div>
                     </div>
                 </div>
-
                 <button onclick="resetGame()" class="text-slate-500 hover:text-indigo-600 font-bold border-b-2 border-transparent hover:border-indigo-600 pb-1 transition-all text-xl">Play Again</button>
             </div>
         `;
 
         // --- ACTIONS ---
+        const changeView = (newView) => { state.view = newView; render(); };
+        const toggleStage2Hint = () => { state.showStage2Hint = true; render(); };
 
-        const changeView = (newView) => {
-            state.view = newView;
-            render();
-        };
-
-        const toggleStage2Hint = () => {
-            state.showStage2Hint = true;
-            render();
-        };
+        const confirmStage3Choice = (fundId) => { state.stage3PendingChoice = fundId; render(); };
+        const cancelStage3Confirm = () => { state.stage3PendingChoice = null; render(); };
+        const lockStage3 = () => { const c = state.stage3PendingChoice; state.stage3PendingChoice = null; processStage3(c); };
 
         const resetGame = () => {
             state.currentBalance = state.initialBalance;
             state.stage1Choice = null; state.stage1Logs = [];
             state.stage2Choice = null; state.stage2Logs = []; state.stage2Working = "";
             state.stage3Choice = null; state.stage3Logs = [];
-            state.finalBalance = 0;
+            state.finalBalance = 0; state.stage3PendingChoice = null;
             state.verifications = { stage1: false, stage2: false, stage3_lesson: false, stage3: false, rec_stage2_sel: false, rec_stage3_sel: false };
             state.calcInputs = { stage2: "", stage3safe: "", wheel: "" };
-            state.showStage2Hint = false;
-            state.stage3AnalyzerError = false;
-            state.stage2CalcError = false;
-            state.stage3SafeCalcError = false;
-            state.pendingStage2Logs = [];
-            state.pendingStage2Bal = 0;
-            state.pendingStage3Logs = [];
-            state.pendingStage3Bal = 0;
-            state.wheelData = {
-                fundId: null, fundName: "", year: 16, currentPrincipal: 0, accumulatedInterest: 0, bal: 0, isSpinning: false, currentRotation: 0, riskPct: 10, slicePattern: [], awaitingCalculation: false, pendingOutcome: null, calcError: false
-            };
+            state.showStage2Hint = false; state.showStage2Hints = false; state.stage3AnalyzerError = false; state.stage3AnalyzerErrorMsg = ''; state.stage2CalcError = false; state.stage2CalcErrorMsg = ''; state.stage3SafeCalcError = false;
+            state.analyzerCorrectS = null; state.analyzerCorrectD = null;
+            state.analyzerSStatus = null; state.analyzerDStatus = null;
+            state.analyzerSInput = ''; state.analyzerDInput = '';
+            state.analyzerSErrorMsg = ''; state.analyzerDErrorMsg = '';
+            state.stage2AnnualStatus = null; state.stage2MonthlyStatus = null;
+            state.stage2AnnualErrorMsg = ''; state.stage2MonthlyErrorMsg = '';
+            state.stage2BothCorrect = false; state.stage2AnnualInput = ''; state.stage2MonthlyInput = '';
+            state.pendingStage2Logs = []; state.pendingStage2Bal = 0; state.pendingStage3Logs = []; state.pendingStage3Bal = 0;
+            state.wheelData = { fundId: null, fundName: "", year: 2033, currentPrincipal: 0, accumulatedInterest: 0, bal: 0, isSpinning: false, currentRotation: 0, riskPct: 10, slicePattern: [], awaitingCalculation: false, pendingOutcome: null, calcError: false };
+            state.previousRuns = [];
             changeView('intro');
         };
 
         const replayStage3 = () => {
-            state.stage3Choice = null;
-            state.stage3Logs = [];
-            state.finalBalance = 0;
-            state.verifications.stage3 = false;
-            state.verifications.rec_stage3_sel = false;
-            state.calcInputs.stage3safe = "";
-            state.calcInputs.wheel = "";
-            state.stage3SafeCalcError = false;
-            state.pendingStage3Logs = [];
-            state.pendingStage3Bal = 0;
-            state.wheelData = {
-                fundId: null, fundName: "", year: 16, currentPrincipal: 0, accumulatedInterest: 0, bal: 0, isSpinning: false, currentRotation: 0, riskPct: 10, slicePattern: [], awaitingCalculation: false, pendingOutcome: null, calcError: false
-            };
+            if (state.previousRuns.length >= 2) return;
+            if (state.stage3Logs.length > 0) {
+                const runNum = state.previousRuns.length + 1;
+                state.previousRuns.push({
+                    label: `Run ${runNum}`,
+                    fundName: state.stage3Choice,
+                    startBalance: state.stage3Logs[0].startBalance,
+                    logs: state.stage3Logs.map(l => ({ year: l.year, balance: l.endBalance }))
+                });
+            }
+            state.stage3Choice = null; state.stage3Logs = []; state.finalBalance = 0; state.stage3PendingChoice = null;
+            state.verifications.stage3 = false; state.verifications.rec_stage3_sel = false;
+            state.calcInputs.stage3safe = ""; state.calcInputs.wheel = "";
+            state.stage3SafeCalcError = false; state.pendingStage3Logs = []; state.pendingStage3Bal = 0;
+            state.wheelData = { fundId: null, fundName: "", year: 2033, currentPrincipal: 0, accumulatedInterest: 0, bal: 0, isSpinning: false, currentRotation: 0, riskPct: 10, slicePattern: [], awaitingCalculation: false, pendingOutcome: null, calcError: false };
             changeView('stage3');
         };
 
-        // STAGE 1 PROCESS
+        // STAGE 1
         const processStage1 = (fundId) => {
-            if (fundId === 'A' || fundId === 'B') {
-                changeView('stage1_wrong');
-            } else if (fundId === 'C') {
-                // Correct! Fund C is 5% Compound.
-                let bal = state.initialBalance;
-                let logs = [];
-                for(let y=1; y<=5; y++) {
-                    let startBal = bal;
-                    let interest = bal * 0.05;
-                    let stepWorking = `Step: ${formatMoney(startBal)} × 5.0% = +${formatMoney(interest)}`;
-                    let formulaStr = `${formatMoney(state.initialBalance)} × (1 + 0.05)<sup>${y}</sup>`;
-                    bal += interest;
-                    logs.push({ 
-                        year: y, 
-                        startBalance: startBal, 
-                        working: stepWorking, 
-                        formulaWorking: formulaStr,
-                        endBalance: bal 
-                    });
-                }
-                state.stage1Choice = "Fund C: Apex (5.0% p.a. Compound)";
-                state.stage1Logs = logs;
-                state.currentBalance = bal; // Balance carries to Stage 2
-                changeView('stage1_correct');
+            if (fundId === 'A' || fundId === 'B') { changeView('stage1_wrong'); return; }
+            let bal = state.initialBalance;
+            let logs = [];
+            for (let y = 2026; y <= 2030; y++) {
+                let startBal = bal;
+                let t = y - 2025;
+                let interest = bal * 0.05;
+                let stepWorking = `Step: ${formatMoney(startBal)} &times; 5.0% = +${formatMoney(interest)}`;
+                let formulaStr = `${formatMoney(state.initialBalance)} &times; (1 + 5/100)<sup>${t}</sup>`;
+                bal += interest;
+                logs.push({ year: y, startBalance: startBal, working: stepWorking, formulaWorking: formulaStr, endBalance: bal });
             }
+            state.stage1Choice = "Fund C: Apex (5.0% p.a. Compound)";
+            state.stage1Logs = logs;
+            state.currentBalance = bal;
+            changeView('stage1_correct');
         };
 
-        // STAGE 2 PROCESS
-        const processStage2 = (option) => {
-            if (option === 'Annual') {
-                changeView('stage2_wrong');
-            } else if (option === 'Monthly') {
-                let p = state.currentBalance;
-                let finalBal = p;
-                let logs = [];
-                let periodCount = 1;
-                
-                for (let y = 6; y <= 15; y++) {
+        // STAGE 2
+        const checkStage2Both = () => {
+            const annualStr = (document.getElementById('s2-annual-input')?.value || '').replace(/,/g, '').trim();
+            const monthlyStr = (document.getElementById('s2-monthly-input')?.value || '').replace(/,/g, '').trim();
+            const annualVal = parseFloat(annualStr);
+            const monthlyVal = parseFloat(monthlyStr);
+            if (isNaN(annualVal) || isNaN(monthlyVal)) return;
+
+            const p = state.currentBalance;
+            const targetAnnual = Math.round(p * Math.pow(1.03, 2) * 100) / 100;
+
+            let monthlyBal = p;
+            for (let i = 0; i < 24; i++) monthlyBal += monthlyBal * (0.0296 / 12);
+            const targetMonthly = Math.round(monthlyBal * 100) / 100;
+
+            const aDp = annualStr.split('.').length > 1 ? annualStr.split('.')[1].length : 0;
+            const mDp = monthlyStr.split('.').length > 1 ? monthlyStr.split('.')[1].length : 0;
+
+            let aStatus = null, mStatus = null, aMsg = '', mMsg = '';
+
+            if (aDp !== 2) {
+                aStatus = 'incorrect';
+                aMsg = aDp === 0 ? 'Round to exactly 2 decimal places.' : aDp < 2 ? 'You only entered ' + aDp + ' decimal place — use exactly 2.' : 'Too many decimal places — round to exactly 2.';
+            } else if (Math.abs(annualVal - targetAnnual) <= 0.01) {
+                aStatus = 'correct';
+            } else {
+                aStatus = 'incorrect';
+                const wrongAnnualMonthly = Math.round(p * Math.pow(1 + 0.03/12, 2) * 100) / 100;
+                if (Math.abs(annualVal - wrongAnnualMonthly) <= 0.01) {
+                    aMsg = 'For Annual compounding, r = 3 and n = 2. You do not divide r by 12 — that is only for monthly.';
+                } else {
+                    aMsg = 'Incorrect. Use A = P(1 + r/100)^n with r = 3 and n = 2.';
+                }
+            }
+
+            if (mDp !== 2) {
+                mStatus = 'incorrect';
+                mMsg = mDp === 0 ? 'Round to exactly 2 decimal places.' : mDp < 2 ? 'You only entered ' + mDp + ' decimal place — use exactly 2.' : 'Too many decimal places — round to exactly 2.';
+            } else if (Math.abs(monthlyVal - targetMonthly) <= 0.01) {
+                mStatus = 'correct';
+            } else {
+                mStatus = 'incorrect';
+                const wrongN2 = Math.round(p * Math.pow(1 + 0.0296/12, 2) * 100) / 100;
+                const wrongR24 = Math.round(p * Math.pow(1.0296, 24) * 100) / 100;
+                const wrongR2  = Math.round(p * Math.pow(1.0296, 2) * 100) / 100;
+                if (Math.abs(monthlyVal - wrongN2) <= 0.01) {
+                    mMsg = 'Check n. For monthly compounding over 2 years, n = 2 × 12 = 24 months, not 2.';
+                } else if (Math.abs(monthlyVal - wrongR24) <= 0.02 || Math.abs(monthlyVal - wrongR2) <= 0.02) {
+                    mMsg = 'Check r. For monthly compounding, r = 2.96 ÷ 12 (monthly rate %). You must divide the annual rate by 12.';
+                } else {
+                    mMsg = 'Incorrect. Use A = P(1 + r/100)^n with r = 2.96 ÷ 12 and n = 24.';
+                }
+            }
+
+            state.stage2AnnualStatus = aStatus;
+            state.stage2MonthlyStatus = mStatus;
+            state.stage2AnnualErrorMsg = aMsg;
+            state.stage2MonthlyErrorMsg = mMsg;
+            state.stage2AnnualInput = annualStr;
+            state.stage2MonthlyInput = monthlyStr;
+
+            if (aStatus === 'correct' && mStatus === 'correct') {
+                state.stage2BothCorrect = true;
+                let bal = p, logs = [], periodCount = 1;
+                for (let y = 2031; y <= 2032; y++) {
                     for (let m = 1; m <= 12; m++) {
-                        let startBal = finalBal;
-                        let interest = finalBal * (0.0296 / 12); 
-                        let stepWorking = `${formatMoney(finalBal)} × (2.96% ÷ 12) = +${formatMoney(interest)}`;
-                        let formulaStr = `${formatMoney(p)} × (1 + 0.0296 ÷ 12)<sup>${periodCount}</sup>`;
-                        finalBal += interest;
-                        logs.push({
-                            period: `Yr ${y} M${m}`, 
-                            startBalance: startBal, 
-                            working: stepWorking, 
-                            formulaWorking: formulaStr,
-                            endBalance: finalBal
-                        });
+                        let startBal = bal;
+                        let interest = bal * (0.0296 / 12);
+                        let stepWorking = `${formatMoney(bal)} &times; (2.96% &divide; 12) = +${formatMoney(interest)}`;
+                        let formulaStr = `${formatMoney(p)} &times; (1 + 2.96/100 &divide; 12)<sup>${periodCount}</sup>`;
+                        bal += interest;
+                        logs.push({ period: `${y} M${m}`, startBalance: startBal, working: stepWorking, formulaWorking: formulaStr, endBalance: bal });
                         periodCount++;
                     }
                 }
-                state.stage2Working = `${formatMoney(p)} × (1 + 0.0296 / 12)<sup>120</sup>`;
+                state.stage2Working = `${formatMoney(p)} &times; (1 + 2.96/100 &divide; 12)<sup>24</sup>`;
                 state.pendingStage2Logs = logs;
-                state.pendingStage2Bal = finalBal;
-                changeView('stage2_calc');
+                state.pendingStage2Bal = bal;
             }
+            render();
         };
-        
-        const checkStage2Calc = () => {
-            const inputEl = document.getElementById('stage2-calc-input');
-            const inputStr = inputEl.value.replace(/,/g, '');
-            const inputVal = parseFloat(inputStr);
 
-            if(!state.calcInputs) state.calcInputs = {};
-            state.calcInputs.stage2 = inputEl.value;
-
-            if (isNaN(inputVal)) return;
-
-            const targetVal = Math.round(state.pendingStage2Bal * 100) / 100;
-
-            if (Math.abs(inputVal - targetVal) <= 0.02) {
-                state.stage2CalcError = false;
-                state.stage2Logs = state.pendingStage2Logs;
-                state.currentBalance = state.pendingStage2Bal;
-                state.stage2Choice = "The Monthly Saver (2.96% p.a. Monthly)";
-                changeView('stage2_correct');
-            } else {
-                state.stage2CalcError = true;
-                render();
-            }
+        const proceedToStage2Correct = () => {
+            state.stage2Logs = state.pendingStage2Logs;
+            state.currentBalance = state.pendingStage2Bal;
+            state.stage2Choice = "The Monthly Saver (2.96% p.a. Monthly)";
+            changeView('stage2_correct');
         };
-        
-        // STAGE 3 ANALYZER CHECK
+
         const checkAnalyzer = () => {
-            const sStr = document.getElementById('analyze-success').value.replace(/,/g, '');
-            const dStr = document.getElementById('analyze-drop').value.replace(/,/g, '');
-            const sVal = parseFloat(sStr);
-            const dVal = parseFloat(dStr);
-
-            if (isNaN(sVal) || isNaN(dVal)) return;
-
-            // Calculate targets exactly to 2 decimal places (20% Gain, 20% Penalty)
             const targetS = Math.round(state.currentBalance * 1.20 * 100) / 100;
             const targetD = Math.round(state.currentBalance * 0.80 * 100) / 100;
 
-            // Allow off-by-one cent rounding tolerance just in case of odd float quirks
-            if (Math.abs(sVal - targetS) <= 0.02 && Math.abs(dVal - targetD) <= 0.02) {
-                state.stage3AnalyzerError = false;
-                state.verifications.stage3_lesson = true; // Auto verify
-                render();
-            } else {
-                state.stage3AnalyzerError = true;
-                render();
+            const checkField = (inputId, stateInputKey, currentStatus, target, successLabel, failLabel) => {
+                if (currentStatus === 'correct') return; // already verified, skip
+                const rawStr = (document.getElementById(inputId)?.value || state[stateInputKey] || '').replace(/,/g, '').trim();
+                state[stateInputKey] = rawStr;
+                const val = parseFloat(rawStr);
+                if (isNaN(val)) return;
+                const dp = rawStr.split('.').length > 1 ? rawStr.split('.')[1].length : 0;
+                if (dp !== 2) {
+                    return `Round to exactly 2 decimal places.`;
+                }
+                if (Math.abs(val - target) <= 0.01) return null; // correct
+                return `Incorrect. Calculate: Current Balance × ${failLabel}, rounded to 2 decimal places.`;
+            };
+
+            const sMsg = state.analyzerSStatus !== 'correct'
+                ? checkField('analyze-success', 'analyzerSInput', state.analyzerSStatus, targetS, '+20%', '1.20')
+                : null;
+            const dMsg = state.analyzerDStatus !== 'correct'
+                ? checkField('analyze-drop', 'analyzerDInput', state.analyzerDStatus, targetD, '-20%', '0.80')
+                : null;
+
+            if (state.analyzerSStatus !== 'correct') {
+                if (sMsg === null) {
+                    state.analyzerSStatus = 'correct';
+                    state.analyzerCorrectS = targetS;
+                    state.analyzerSErrorMsg = '';
+                } else {
+                    state.analyzerSStatus = 'incorrect';
+                    state.analyzerSErrorMsg = sMsg;
+                }
             }
+            if (state.analyzerDStatus !== 'correct') {
+                if (dMsg === null) {
+                    state.analyzerDStatus = 'correct';
+                    state.analyzerCorrectD = targetD;
+                    state.analyzerDErrorMsg = '';
+                } else {
+                    state.analyzerDStatus = 'incorrect';
+                    state.analyzerDErrorMsg = dMsg;
+                }
+            }
+
+            if (state.analyzerSStatus === 'correct' && state.analyzerDStatus === 'correct') {
+                state.verifications.stage3_lesson = true;
+            }
+            render();
         };
 
-        // STAGE 3 PROCESS (WHEEL)
+        // STAGE 3
         const processStage3 = (fundId) => {
             if (fundId === 'A') {
-                // Guaranteed - skip wheel but require calculation
                 let bal = state.currentBalance;
                 let logs = [];
-                for(let y=16; y<=20; y++) {
+                for (let y = 2033; y <= 2035; y++) {
                     let startBal = bal;
                     let interest = bal * 0.025;
-                    let workingStr = `Compound: ${formatMoney(bal)} × 2.5% = +${formatMoney(interest)}`;
+                    let workingStr = `Compound: ${formatMoney(bal)} &times; 2.5% = +${formatMoney(interest)}`;
                     bal += interest;
                     logs.push({ year: y, success: true, startBalance: startBal, interestEarned: interest, penalty: 0, endBalance: bal, working: workingStr });
                 }
-                state.pendingStage3Logs = logs;
-                state.pendingStage3Bal = bal;
+                state.pendingStage3Logs = logs; state.pendingStage3Bal = bal;
                 changeView('stage3_safe_calc');
-            } 
-            else {
-                // Risky
-                const riskPct = fundId === 'B' ? 20 : 30; // 20% risk for B, 30% risk for C
-                
-                // Randomize Wheel Sectors
+            } else {
+                const riskPct = fundId === 'B' ? 20 : 60;
                 const numRed = riskPct / 10;
-                const numGreen = 10 - numRed;
                 let slices = [];
-                for(let i=0; i<numRed; i++) slices.push('red');
-                for(let i=0; i<numGreen; i++) slices.push('green');
-                
-                // Shuffle array randomly
+                for (let i = 0; i < numRed; i++) slices.push('red');
+                for (let i = 0; i < 10 - numRed; i++) slices.push('green');
                 slices = slices.sort(() => Math.random() - 0.5);
-                
-                // Assign alternating green shades for aesthetics
-                let greenCount = 0;
-                slices = slices.map(slice => {
-                    if(slice === 'green') {
-                        greenCount++;
-                        return greenCount % 2 === 0 ? 'green1' : 'green2';
-                    }
-                    return slice;
-                });
-
-                state.wheelData = {
-                    fundId: fundId,
-                    fundName: fundId === 'B' ? "Market Accel (5.0% p.a. Compound)" : "Quantum Tech (45.0% p.a. Compound)",
-                    year: 16,
-                    currentPrincipal: state.currentBalance,
-                    accumulatedInterest: 0,
-                    bal: state.currentBalance,
-                    isSpinning: false,
-                    currentRotation: 0,
-                    riskPct: riskPct,
-                    slicePattern: slices,
-                    awaitingCalculation: false,
-                    pendingOutcome: null,
-                    calcError: false
-                };
+                let gc = 0;
+                slices = slices.map(s => { if (s === 'green') { gc++; return gc % 2 === 0 ? 'green1' : 'green2'; } return s; });
+                state.wheelData = { fundId, fundName: fundId === 'B' ? "Market Accel (5.0% p.a. Compound)" : "Fun Tech (45.0% p.a. Compound)", year: 2033, currentPrincipal: state.currentBalance, accumulatedInterest: 0, bal: state.currentBalance, isSpinning: false, currentRotation: 0, riskPct, slicePattern: slices, awaitingCalculation: false, pendingOutcome: null, calcError: false };
                 state.stage3Logs = [];
                 changeView('stage3_wheel');
             }
@@ -1238,159 +1241,257 @@
 
         const spinWheel = () => {
             if (state.wheelData.isSpinning) return;
-            state.wheelData.isSpinning = true;
-            render(); 
-
+            state.wheelData.isSpinning = true; render();
             const riskPct = state.wheelData.riskPct;
-            // True mathematical random check
             const success = Math.random() > (riskPct / 100);
-            
-            // Find all indices of the slices that match our success/fail result
             let validSliceIndices = [];
             state.wheelData.slicePattern.forEach((type, idx) => {
                 if (success && type.startsWith('green')) validSliceIndices.push(idx);
                 if (!success && type === 'red') validSliceIndices.push(idx);
             });
-
-            // Pick a random valid slice index to land in
             const targetSliceIdx = validSliceIndices[Math.floor(Math.random() * validSliceIndices.length)];
-            
-            // Calculate degrees to point to that specific slice (with a safe random offset from the edge)
             let targetDeg = (targetSliceIdx * 36) + (Math.random() * 20 - 10);
             if (targetDeg < 0) targetDeg += 360;
-
             const absoluteTarget = (360 - targetDeg) % 360;
             const currentMod = state.wheelData.currentRotation % 360;
             let rotationNeeded = absoluteTarget - currentMod;
             if (rotationNeeded < 0) rotationNeeded += 360;
-
-            // Spin at least 4 full times before stopping
-            const baseSpins = 360 * 4;
-            const finalRotation = state.wheelData.currentRotation + baseSpins + rotationNeeded;
-            
-            setTimeout(() => {
-                state.wheelData.currentRotation = finalRotation;
-                const wheelEl = document.getElementById('spin-wheel-element');
-                if (wheelEl) wheelEl.style.transform = `rotate(${finalRotation}deg)`;
-            }, 50);
-
-            setTimeout(() => {
-                // Instead of processing immediately, prompt calculation
-                state.wheelData.pendingOutcome = success;
-                state.wheelData.awaitingCalculation = true;
-                state.wheelData.calcError = false;
-                render();
-            }, 3050);
+            const finalRotation = state.wheelData.currentRotation + 360 * 4 + rotationNeeded;
+            setTimeout(() => { state.wheelData.currentRotation = finalRotation; const el = document.getElementById('spin-wheel-element'); if (el) el.style.transform = `rotate(${finalRotation}deg)`; }, 50);
+            setTimeout(() => { state.wheelData.pendingOutcome = success; state.wheelData.awaitingCalculation = true; state.wheelData.calcError = false; render(); }, 3050);
         };
-        
+
         const checkWheelCalc = () => {
             const inputEl = document.getElementById('wheel-calc-input');
-            const inputStr = inputEl.value.replace(/,/g, '');
-            const inputVal = parseFloat(inputStr);
-
-            if(!state.calcInputs) state.calcInputs = {};
+            const inputVal = parseFloat(inputEl.value.replace(/,/g, ''));
+            if (!state.calcInputs) state.calcInputs = {};
             state.calcInputs.wheel = inputEl.value;
-
             if (isNaN(inputVal)) return;
-
             const { fundId, bal, pendingOutcome } = state.wheelData;
-            let interestRate = fundId === 'B' ? 0.05 : 0.45;
-            let penaltyRate = fundId === 'B' ? 0.02 : 0.25;
-
-            let targetVal = pendingOutcome ? bal * (1 + interestRate) : bal * (1 - penaltyRate);
+            let targetVal = pendingOutcome ? bal * (1 + (fundId === 'B' ? 0.05 : 0.45)) : bal * (1 - (fundId === 'B' ? 0.02 : 0.40));
             targetVal = Math.round(targetVal * 100) / 100;
-
-            // Allow off-by-one cent rounding tolerance
             if (Math.abs(inputVal - targetVal) <= 0.02) {
-                state.wheelData.calcError = false;
-                state.wheelData.awaitingCalculation = false;
-                state.calcInputs.wheel = ""; // Clear input for next spin
+                state.wheelData.calcError = false; state.wheelData.awaitingCalculation = false; state.calcInputs.wheel = "";
                 processWheelOutcome(pendingOutcome);
-            } else {
-                state.wheelData.calcError = true;
-                render();
-            }
+            } else { state.wheelData.calcError = true; render(); }
         };
 
         const checkStage3SafeCalc = () => {
             const inputEl = document.getElementById('stage3-safe-calc-input');
-            const inputStr = inputEl.value.replace(/,/g, '');
-            const inputVal = parseFloat(inputStr);
-
-            if(!state.calcInputs) state.calcInputs = {};
+            const inputVal = parseFloat(inputEl.value.replace(/,/g, ''));
+            if (!state.calcInputs) state.calcInputs = {};
             state.calcInputs.stage3safe = inputEl.value;
-
             if (isNaN(inputVal)) return;
-
             const targetVal = Math.round(state.pendingStage3Bal * 100) / 100;
-
             if (Math.abs(inputVal - targetVal) <= 0.02) {
-                state.stage3SafeCalcError = false;
-                state.stage3Logs = state.pendingStage3Logs;
-                state.finalBalance = state.pendingStage3Bal;
-                state.stage3Choice = "Secure Haven (2.5% p.a. Compound)";
+                state.stage3SafeCalcError = false; state.stage3Logs = state.pendingStage3Logs;
+                state.finalBalance = state.pendingStage3Bal; state.stage3Choice = "Secure Haven (2.5% p.a. Compound)";
                 changeView('final_result');
-            } else {
-                state.stage3SafeCalcError = true;
-                render();
-            }
+            } else { state.stage3SafeCalcError = true; render(); }
         };
 
         const processWheelOutcome = (success) => {
-            let interest = 0;
-            let penalty = 0;
-            let workingStr = "";
             let { fundId, bal, year } = state.wheelData;
-            let startBal = bal; 
-            
-            let interestRate = 0;
-            let penaltyRate = 0;
-
-            // Both options are now Compound Interest
-            if (fundId === 'B') {
-                interestRate = 0.05; // 5.0%
-                penaltyRate = 0.02;  // 2.0% penalty
-            } else if (fundId === 'C') {
-                interestRate = 0.45; // 45.0%
-                penaltyRate = 0.25;  // 25.0% penalty
-            }
-
+            let startBal = bal;
+            let interestRate = fundId === 'B' ? 0.05 : 0.45;
+            let penaltyRate = fundId === 'B' ? 0.02 : 0.40;
+            let workingStr = "";
             if (success) {
-                interest = bal * interestRate;
-                workingStr = `Compound: ${formatMoney(bal)} × ${(interestRate * 100).toFixed(1)}% = +${formatMoney(interest)}`;
+                let interest = bal * interestRate;
+                workingStr = `Compound: ${formatMoney(bal)} &times; ${(interestRate * 100).toFixed(1)}% = +${formatMoney(interest)}`;
                 bal += interest;
             } else {
-                penalty = bal * penaltyRate;
-                workingStr = `Penalty: ${formatMoney(bal)} × ${(penaltyRate * 100).toFixed(1)}% = -${formatMoney(penalty)}`;
+                let penalty = bal * penaltyRate;
+                workingStr = `Penalty: ${formatMoney(bal)} &times; ${(penaltyRate * 100).toFixed(1)}% = -${formatMoney(penalty)}`;
                 bal -= penalty;
             }
-
-            state.stage3Logs.push({
-                year: year,
-                success: success,
-                startBalance: startBal,
-                interestEarned: interest,
-                penalty: penalty,
-                endBalance: bal,
-                working: workingStr
-            });
-
-            state.wheelData.bal = bal;
-            state.wheelData.year += 1;
-            state.wheelData.isSpinning = false;
-            
+            state.stage3Logs.push({ year, success, startBalance: startBal, endBalance: bal, working: workingStr });
+            state.wheelData.bal = bal; state.wheelData.year += 1; state.wheelData.isSpinning = false;
             render();
         };
 
-        const finishWheelStage = () => {
-            state.finalBalance = state.wheelData.bal;
-            state.stage3Choice = state.wheelData.fundName;
-            changeView('final_result');
+        const finishWheelStage = () => { state.finalBalance = state.wheelData.bal; state.stage3Choice = state.wheelData.fundName; changeView('final_result'); };
+
+        // --- COMPARISON CHART ---
+        const computeWorstPath = () => {
+            const initial = state.initialBalance;
+            let points = [{ year: 2025, balance: initial }];
+            let bal = initial;
+            for (let y = 2026; y <= 2030; y++) { bal = initial + initial * 0.02 * (y - 2025); points.push({ year: y, balance: bal }); }
+            let s2 = bal;
+            for (let y = 2031; y <= 2032; y++) { bal = s2 * Math.pow(1.03, y - 2030); points.push({ year: y, balance: bal }); }
+            let s3 = bal;
+            for (let y = 2033; y <= 2035; y++) { bal = s3 * Math.pow(1.025, y - 2032); points.push({ year: y, balance: bal }); }
+            return points;
+        };
+
+        const getStudentTrajectory = () => {
+            let points = [{ year: 2025, balance: state.initialBalance }];
+            state.stage1Logs.forEach(log => points.push({ year: log.year, balance: log.endBalance }));
+            if (state.stage2Logs.length > 0) {
+                state.stage2Logs.forEach(log => { if (log.period.endsWith('M12')) points.push({ year: parseInt(log.period), balance: log.endBalance }); });
+            }
+            state.stage3Logs.forEach(log => points.push({ year: log.year, balance: log.endBalance }));
+            return points;
+        };
+
+        const drawComparisonChart = () => {
+            const canvas = document.getElementById('comparison-chart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const w = rect.width, h = rect.height;
+            const pad = { top: 40, right: 30, bottom: 50, left: 85 };
+            const cw = w - pad.left - pad.right, ch = h - pad.top - pad.bottom;
+            const studentData = getStudentTrajectory();
+            const worstData = computeWorstPath();
+            const prevRunColors = ['#8b5cf6', '#f97316'];
+            const prevRunData = state.previousRuns.map(run => [
+                { year: 2032, balance: run.startBalance },
+                ...run.logs.map(l => ({ year: l.year, balance: l.balance }))
+            ]);
+            const allBals = [...studentData.map(d => d.balance), ...worstData.map(d => d.balance),
+                ...prevRunData.flatMap(d => d.map(p => p.balance))];
+            const maxBal = Math.max(...allBals) * 1.1;
+            const minBal = Math.min(...allBals, state.initialBalance) * 0.92;
+            const xScale = (yr) => pad.left + ((yr - 2025) / 10) * cw;
+            const yScale = (b) => pad.top + ch - ((b - minBal) / (maxBal - minBal)) * ch;
+
+            ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const val = minBal + (maxBal - minBal) * (i / 5);
+                const y = yScale(val);
+                ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+                ctx.fillStyle = '#94a3b8'; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'right';
+                ctx.fillText('$' + Math.round(val).toLocaleString(), pad.left - 8, y + 4);
+            }
+
+            // X labels
+            ctx.fillStyle = '#64748b'; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+            for (let yr = 2025; yr <= 2035; yr++) {
+                const x = xScale(yr);
+                ctx.fillText(yr.toString(), x, h - pad.bottom + 20);
+                ctx.strokeStyle = '#f1f5f9'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + ch); ctx.stroke();
+            }
+
+            // Stage boundaries
+            ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
+            [2030.5, 2032.5].forEach(yr => { const x = xScale(yr); ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + ch); ctx.stroke(); });
+            ctx.setLineDash([]);
+
+            // Stage labels
+            ctx.fillStyle = '#94a3b8'; ctx.font = '10px Inter, sans-serif'; ctx.textAlign = 'center';
+            ctx.fillText('Stage 1', xScale(2027.5), pad.top - 8);
+            ctx.fillText('Stage 2', xScale(2031.5), pad.top - 8);
+            ctx.fillText('Stage 3', xScale(2034), pad.top - 8);
+
+            const drawLine = (data, color, lw, dashed = false) => {
+                ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = lw;
+                if (dashed) ctx.setLineDash([6, 4]); else ctx.setLineDash([]);
+                data.forEach((d, i) => { const x = xScale(d.year), y = yScale(d.balance); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+                ctx.stroke();
+                ctx.setLineDash([]);
+                data.forEach(d => {
+                    ctx.beginPath(); ctx.fillStyle = color; ctx.arc(xScale(d.year), yScale(d.balance), 4, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.fillStyle = '#fff'; ctx.arc(xScale(d.year), yScale(d.balance), 2, 0, Math.PI * 2); ctx.fill();
+                });
+            };
+
+            drawLine(worstData, '#ef4444', 2.5);
+            prevRunData.forEach((data, i) => drawLine(data, prevRunColors[i], 2, true));
+            drawLine(studentData, '#22c55e', 3);
+
+            // End labels
+            const se = studentData[studentData.length - 1], we = worstData[worstData.length - 1];
+            ctx.font = 'bold 12px Inter, sans-serif'; ctx.textAlign = 'left';
+            let sy = yScale(se.balance) - 10, wy = yScale(we.balance) + 18;
+            if (Math.abs(sy - wy) < 20) { sy -= 4; wy += 4; }
+            ctx.fillStyle = '#22c55e'; ctx.fillText(formatMoney(se.balance), xScale(se.year) - 40, sy);
+            ctx.fillStyle = '#ef4444'; ctx.fillText(formatMoney(we.balance), xScale(we.year) - 40, wy);
+            prevRunData.forEach((data, i) => {
+                const last = data[data.length - 1];
+                ctx.fillStyle = prevRunColors[i];
+                ctx.fillText(formatMoney(last.balance), xScale(last.year) - 40, yScale(last.balance) - 10);
+            });
+
+            // Legend
+            const lx = pad.left + 10, ly = pad.top + 8;
+            const legendRows = [
+                { color: '#22c55e', label: `Your Journey (Run ${state.previousRuns.length + 1})`, dashed: false },
+                ...state.previousRuns.map((run, i) => ({ color: prevRunColors[i], label: `Run ${run.label.replace('Run ', '')}: ${run.fundName}`, dashed: true })),
+                { color: '#ef4444', label: 'Worst Decisions', dashed: false },
+            ];
+            ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'left';
+            legendRows.forEach((row, i) => {
+                const rowY = ly + i * 18;
+                if (row.dashed) { ctx.setLineDash([5, 3]); ctx.strokeStyle = row.color; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(lx, rowY + 2); ctx.lineTo(lx + 14, rowY + 2); ctx.stroke(); ctx.setLineDash([]); }
+                else { ctx.fillStyle = row.color; ctx.fillRect(lx, rowY, 14, 3); }
+                ctx.fillStyle = '#334155'; ctx.fillText(row.label, lx + 20, rowY + 5);
+            });
+        };
+
+        // --- DEV SKIP HELPER ---
+        window.skip = () => {
+            const v = state.view;
+
+            const fill = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val.toFixed(2);
+            };
+
+            if (v === 'stage2') {
+                const p = state.currentBalance;
+                const targetAnnual = Math.round(p * Math.pow(1.03, 2) * 100) / 100;
+                let mb = p;
+                for (let i = 0; i < 24; i++) mb += mb * (0.0296 / 12);
+                const targetMonthly = Math.round(mb * 100) / 100;
+                fill('s2-annual-input', targetAnnual);
+                fill('s2-monthly-input', targetMonthly);
+                checkStage2Both();
+
+            } else if (v === 'stage3_lesson') {
+                const targetS = Math.round(state.currentBalance * 1.20 * 100) / 100;
+                const targetD = Math.round(state.currentBalance * 0.80 * 100) / 100;
+                fill('analyze-success', targetS);
+                fill('analyze-drop', targetD);
+                state.analyzerSInput = targetS.toFixed(2);
+                state.analyzerDInput = targetD.toFixed(2);
+                checkAnalyzer();
+
+            } else if (v === 'stage3_safe_calc') {
+                const targetVal = Math.round(state.pendingStage3Bal * 100) / 100;
+                fill('stage3-safe-calc-input', targetVal);
+                if (!state.calcInputs) state.calcInputs = {};
+                state.calcInputs.stage3safe = targetVal.toFixed(2);
+                checkStage3SafeCalc();
+
+            } else if (v === 'stage3_wheel' && state.wheelData.awaitingCalculation) {
+                const { fundId, bal, pendingOutcome } = state.wheelData;
+                let targetVal = pendingOutcome
+                    ? bal * (1 + (fundId === 'B' ? 0.05 : 0.45))
+                    : bal * (1 - (fundId === 'B' ? 0.02 : 0.40));
+                targetVal = Math.round(targetVal * 100) / 100;
+                fill('wheel-calc-input', targetVal);
+                if (!state.calcInputs) state.calcInputs = {};
+                state.calcInputs.wheel = targetVal.toFixed(2);
+                checkWheelCalc();
+
+            } else {
+                console.log('skip(): no calculation to fill on current view "' + v + '"'
+                    + (v === 'stage3_wheel' ? ' (spin the wheel first)' : ''));
+            }
         };
 
         // --- INITIALIZE ---
         render();
-
     </script>
 </body>
 </html>
